@@ -11,7 +11,7 @@ var nodes = Util.NodeDependencies.new([
 	WEAPON_ANCHOR
 ])
 
-export (Vector3) var momentum_scale = Vector3(1, 1, 0.8)
+export (Vector3) var momentum_scale = Vector3(1.2, 1.2, 0.8)
 
 func _ready():
 	nodes.ready(owner)
