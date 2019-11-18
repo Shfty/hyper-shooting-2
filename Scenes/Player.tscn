@@ -1,0 +1,65 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Scenes/Shotgun.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Src/Player/movement.gd" type="Script" id=2]
+[ext_resource path="res://Src/Player/camera.gd" type="Script" id=3]
+[ext_resource path="res://Src/Player/bob.gd" type="Script" id=4]
+[ext_resource path="res://Src/Player/view_bob.gd" type="Script" id=5]
+[ext_resource path="res://Src/Player/weapon_bob.gd" type="Script" id=6]
+[ext_resource path="res://Src/Player/weapon_momentum.gd" type="Script" id=7]
+[ext_resource path="res://Src/Player/lean.gd" type="Script" id=8]
+
+[sub_resource type="CapsuleShape" id=1]
+margin = 1.0
+radius = 15.0
+height = 26.0
+
+[node name="Spatial" type="Spatial"]
+
+[node name="KinematicBody" type="KinematicBody" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="KinematicBody"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 0, 0 )
+shape = SubResource( 1 )
+
+[node name="CameraPivot" type="Spatial" parent="KinematicBody"]
+editor/display_folded = true
+transform = Transform( 1, 0, 0, 0, 1, 1.06581e-014, 0, -1.06581e-014, 1, 0, 13, -5.68248e-007 )
+
+[node name="Camera" type="Camera" parent="KinematicBody/CameraPivot"]
+cull_mask = 1048574
+fov = 100.0
+near = 1.0
+far = 8192.0
+
+[node name="GunAnchor" type="Spatial" parent="KinematicBody/CameraPivot/Camera"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6.5, -15 )
+
+[node name="GunBobAnchor" type="Spatial" parent="KinematicBody/CameraPivot/Camera/GunAnchor"]
+
+[node name="GunMesh" parent="KinematicBody/CameraPivot/Camera/GunAnchor/GunBobAnchor" instance=ExtResource( 1 )]
+
+[node name="Controllers" type="Node" parent="KinematicBody"]
+
+[node name="MovementController" type="Node" parent="KinematicBody/Controllers"]
+script = ExtResource( 2 )
+
+[node name="CameraController" type="Node" parent="KinematicBody/Controllers"]
+script = ExtResource( 3 )
+
+[node name="BobController" type="Node" parent="KinematicBody/Controllers"]
+script = ExtResource( 4 )
+
+[node name="ViewBobController" type="Node" parent="KinematicBody/Controllers"]
+script = ExtResource( 5 )
+
+[node name="WeaponBobController" type="Node" parent="KinematicBody/Controllers"]
+script = ExtResource( 6 )
+
+[node name="WeaponMomentumController" type="Node" parent="KinematicBody/Controllers"]
+script = ExtResource( 7 )
+
+[node name="LeanController" type="Node" parent="KinematicBody/Controllers"]
+script = ExtResource( 8 )
+[connection signal="grounded_changed" from="KinematicBody/Controllers/MovementController" to="KinematicBody/Controllers/CameraController" method="_on_MovementController_grounded_changed"]
+[connection signal="skating_changed" from="KinematicBody/Controllers/MovementController" to="KinematicBody/Controllers/CameraController" method="_on_MovementController_skating_changed"]
