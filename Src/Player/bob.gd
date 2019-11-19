@@ -1,9 +1,7 @@
 extends Node
 
-const PLAYER = "KinematicBody"
 const MOVEMENT = "MovementController"
 var nodes = Util.NodeDependencies.new([
-	PLAYER,
 	MOVEMENT
 ])
 

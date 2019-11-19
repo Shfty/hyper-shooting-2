@@ -1,25 +1,28 @@
 extends Node
 
-const PLAYER = "KinematicBody"
+const MOVEMENT = "MovementController"
+const CAMERA_YAW = "CameraYaw"
 const CAMERA = "Camera"
 var nodes = Util.NodeDependencies.new([
-	PLAYER,
+	MOVEMENT,
+	CAMERA_YAW,
 	CAMERA
 ])
 
-var last_pos: Vector3 = Vector3.ZERO
+export(float) var lean_factor = 0.01
+export(float) var max_lean = 2.5
 
 func _ready():
 	nodes.ready(owner)
 
 func _physics_process(delta):
-	var player = nodes.get(PLAYER)
+	var movement = nodes.get(MOVEMENT)
+	var camera_yaw = nodes.get(CAMERA_YAW)
 	var camera = nodes.get(CAMERA)
 	
-	var vel = player.translation - last_pos
+	var vel = movement.get("velocity")
 	
 	# Lean
-	var lean = vel.dot(-player.get_global_transform().basis.x)
+	var lean = vel.dot(-camera_yaw.get_global_transform().basis.x) * lean_factor
+	lean = clamp(lean, -max_lean, max_lean)
 	camera.rotation.z = deg2rad(lean)
-	
-	last_pos = player.translation

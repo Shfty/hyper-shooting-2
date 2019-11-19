@@ -1,12 +1,12 @@
 extends Node
 
-const PLAYER = "KinematicBody"
-const CAMERA_PIVOT = "CameraPivot"
+const CAMERA_YAW = "CameraYaw"
+const CAMERA_PITCH = "CameraPitch"
 const MOVEMENT = "MovementController"
 const WEAPON_ANCHOR = "GunBobAnchor"
 var nodes = Util.NodeDependencies.new([
-	PLAYER,
-	CAMERA_PIVOT,
+	CAMERA_YAW,
+	CAMERA_PITCH,
 	MOVEMENT,
 	WEAPON_ANCHOR
 ])
@@ -17,8 +17,8 @@ func _ready():
 	nodes.ready(owner)
 
 func _physics_process(delta):
-	var player = nodes.get(PLAYER)
-	var camera_pivot = nodes.get(CAMERA_PIVOT)
+	var camera_yaw = nodes.get(CAMERA_YAW)
+	var camera_pitch = nodes.get(CAMERA_PITCH)
 	var movement = nodes.get(MOVEMENT)
 	var weapon_anchor = nodes.get(WEAPON_ANCHOR)
 	
@@ -26,8 +26,8 @@ func _physics_process(delta):
 	
 	if(!movement.get("grounded") || movement.get("skating")):
 		var vel = movement.get("velocity")
-		vel = vel.rotated(Vector3.UP, -player.rotation.y)
-		vel = vel.rotated(Vector3.RIGHT, -camera_pivot.rotation.x)
+		vel = vel.rotated(Vector3.UP, -camera_yaw.rotation.y)
+		vel = vel.rotated(Vector3.RIGHT, -camera_pitch.rotation.x)
 		
 		target = vel * momentum_scale * -0.002
 

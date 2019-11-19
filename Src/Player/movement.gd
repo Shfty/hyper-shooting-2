@@ -1,7 +1,11 @@
 extends Node
 
 const PLAYER = "KinematicBody"
-var nodes = Util.NodeDependencies.new([PLAYER])
+const CAMERA_YAW = "CameraYaw"
+var nodes = Util.NodeDependencies.new([
+	PLAYER,
+	CAMERA_YAW
+])
 
 export(float) var move_speed = 320.0
 export(float) var stop_speed = 100.0
@@ -99,7 +103,7 @@ func get_wish_vector(left_action: String, right_action: String, forward_action: 
 		0,
 		get_wish_axis(forward_action, back_action)
 	).rotated(
-		Vector3(0, 1, 0), nodes.get(PLAYER).rotation.y
+		Vector3(0, 1, 0), nodes.get(CAMERA_YAW).rotation.y
 	).normalized()
 
 func move(delta: float, wish_vec: Vector3, grounded: bool, accelerate: float, velocity: Vector3):
