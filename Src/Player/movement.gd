@@ -1,13 +1,20 @@
 extends Node
 
-const PLAYER = "KinematicBody"
+const STATE = "StateModel"
+const KINEMATIC_BODY = "KinematicBody"
 const CAMERA_YAW = "CameraYaw"
+const UNCROUCH_RAYCAST = "UncrouchRayCast"
 var nodes = Util.NodeDependencies.new([
-	PLAYER,
-	CAMERA_YAW
+	STATE,
+	KINEMATIC_BODY,
+	CAMERA_YAW,
+	UNCROUCH_RAYCAST
 ])
 
+var state = null
+
 export(float) var move_speed = 320.0
+export(float) var crouch_speed = 200.0
 export(float) var stop_speed = 100.0
 
 export(float) var gravity = 800.0
@@ -20,73 +27,55 @@ export(float) var air_accelerate = 3.0
 
 export(float) var jump_velocity = 270
 
-export (Vector3) var velocity = Vector3.ZERO
-
-# Jump buffer
-var wants_jump: bool = false
-
-# Grounded
-var grounded: bool = true setget set_grounded, get_grounded
-
-func get_grounded():
-	return grounded
-
-func set_grounded(ground):
-	if(grounded != ground):
-		grounded = ground
-		emit_signal("grounded_changed", grounded)
-
-signal grounded_changed(grounded)
-
-# Skating
-var skating: bool = false setget set_skate, get_skate
-
-func get_skate():
-	return skating
-
-func set_skate(skate):
-	if(skating != skate):
-		skating = skate
-		emit_signal("skating_changed", skating)
-
-signal skating_changed(skating)
-
 # Functions
 func _ready():
 	nodes.ready(owner)
+	state = nodes.get(STATE)
 
 func _physics_process(delta):
 	var wish_vector = get_wish_vector("move_left", "move_right", "move_forward", "move_back")
 	check_jump()
+	check_crouch()
 	check_skate()
 	
 	var move_walk = FP.curry(self, "move_walk", [delta, wish_vector])
 	var move_air = FP.curry(self, "move_air", [delta, wish_vector])
 	
-	velocity = FP.pipe(velocity, [
-		move_walk if nodes.get(PLAYER).is_on_floor() else move_air,
-		FP.curry(self, "add_gravity", [delta]),
-		FP.curry(self, "apply_velocity", [])
-	])
+	state.set_velocity(
+		FP.pipe(state.get_velocity(), [
+			move_walk if nodes.get(KINEMATIC_BODY).is_on_floor() else move_air,
+			FP.curry(self, "add_gravity", [delta]),
+			FP.curry(self, "apply_velocity", [])
+		])
+	)
 
 func check_jump():
 	if(!is_action_pressed("jump")):
-		wants_jump = false
+		state.set_wants_jump(false)
 		return
 	
 	if(Input.is_action_just_pressed("jump")):
-		wants_jump = true
+		state.set_wants_jump(true)
 
 func check_skate():
 	if(!is_action_pressed("skate")):
-		set_skate(false)
+		state.set_skating(false)
 		return
 	
 	if(Input.is_action_just_pressed("skate")):
-		set_skate(true)
+		state.set_skating(true)
+
+func check_crouch():
+	var uncrouch_raycast = nodes.get(UNCROUCH_RAYCAST)
+	if(!is_action_pressed("crouch") && !uncrouch_raycast.is_colliding()):
+		state.set_crouching(false)
+		return
+	
+	if(Input.is_action_just_pressed("crouch")):
+		state.set_crouching(true)
 
 func apply_velocity(velocity):
-	return nodes.get(PLAYER).move_and_slide_with_snap(velocity, Vector3.DOWN, Vector3.UP, !get_skate(), 4, deg2rad(max_slope_angle))
+	return nodes.get(KINEMATIC_BODY).move_and_slide_with_snap(velocity, Vector3.DOWN, Vector3.UP, !state.get_skating(), 4, deg2rad(max_slope_angle))
 
 func add_gravity(delta: float, velocity: Vector3):
 	return velocity - Vector3(0, gravity * delta, 0)
@@ -107,27 +96,29 @@ func get_wish_vector(left_action: String, right_action: String, forward_action: 
 	).normalized()
 
 func move(delta: float, wish_vec: Vector3, grounded: bool, accelerate: float, velocity: Vector3):
+	var state = nodes.get(STATE)
+	
 	velocity = friction(delta, grounded, velocity)
-	var wish_speed = wish_vec.length() * move_speed
+	var wish_speed = wish_vec.length() * (crouch_speed if state.get_crouching() && state.get_grounded() else move_speed)
 	return accelerate(delta, wish_vec, wish_speed, accelerate, velocity)
 
 func move_walk(delta: float, wish_vec: Vector3, velocity: Vector3):
-	if(wants_jump):
-		wants_jump = false
-		set_skate(false)
+	if(state.get_wants_jump()):
+		state.set_wants_jump(false)
+		state.set_skating(false)
 		velocity.y = jump_velocity
 		return move_air(delta, wish_vec, velocity)
 	
-	set_grounded(true)
+	state.set_grounded(true)
 	
-	if(get_skate()):
+	if(state.get_skating()):
 		return move_air(delta, wish_vec, velocity)
 	
 	return move(delta, wish_vec, true, ground_accelerate, velocity)
 
 func move_air(delta: float, wish_vec: Vector3, velocity: Vector3):
-	if(!skating):
-		set_grounded(false)
+	if(!state.get_skating()):
+		state.set_grounded(false)
 	return move(delta, wish_vec, false, air_accelerate, velocity)
 
 func friction(delta: float, walking: bool, velocity: Vector3):

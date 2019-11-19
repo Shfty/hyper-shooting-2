@@ -20,8 +20,8 @@ func _process(delta):
 	var lateral_progress = nodes.get(LATERAL_PROGRESS)
 	var vertical_progress = nodes.get(VERTICAL_PROGRESS)
 	
-	var movement = player_inst.find_node("MovementController")
-	var vel = movement.get("velocity")
+	var state = player_inst.find_node("StateModel")
+	var vel = state.get("velocity")
 	var lateralVel = Vector3(vel.x, 0, vel.z)
 	var verticalVel = Vector3(0, vel.y, 0)
 	lateral_progress.set_value(lateralVel.length())

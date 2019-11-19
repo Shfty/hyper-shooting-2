@@ -1,10 +1,10 @@
 extends Node
 
-const MOVEMENT = "MovementController"
+const STATE = "StateModel"
 const CAMERA_YAW = "CameraYaw"
 const CAMERA = "Camera"
 var nodes = Util.NodeDependencies.new([
-	MOVEMENT,
+	STATE,
 	CAMERA_YAW,
 	CAMERA
 ])
@@ -16,11 +16,11 @@ func _ready():
 	nodes.ready(owner)
 
 func _physics_process(delta):
-	var movement = nodes.get(MOVEMENT)
+	var state = nodes.get(STATE)
 	var camera_yaw = nodes.get(CAMERA_YAW)
 	var camera = nodes.get(CAMERA)
 	
-	var vel = movement.get("velocity")
+	var vel = state.get("velocity")
 	
 	# Lean
 	var lean = vel.dot(-camera_yaw.get_global_transform().basis.x) * lean_factor

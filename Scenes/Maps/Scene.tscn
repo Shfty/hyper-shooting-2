@@ -74,5 +74,39 @@ radius = 200.0
 height = 1000.0
 sides = 64
 
+[node name="CrouchTest" type="Spatial" parent="Geometry"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 289.261 )
+
+[node name="CSGBox" type="CSGBox" parent="Geometry/CrouchTest"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 0 )
+layers = 2
+use_collision = true
+width = 65.0
+height = 65.0
+depth = 256.0
+
+[node name="CSGBox2" type="CSGBox" parent="Geometry/CrouchTest/CSGBox"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -160.412, -7.62939e-006, 0.854523 )
+layers = 2
+use_collision = true
+width = 256.0
+height = 65.0
+depth = 65.0
+
+[node name="CSGBox3" type="CSGBox" parent="Geometry/CrouchTest/CSGBox"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15, 0 )
+layers = 2
+operation = 2
+width = 34.0
+height = 68.0
+depth = 260.0
+
+[node name="CSGBox" type="CSGBox" parent="Geometry/CrouchTest/CSGBox/CSGBox3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -160.412, -7.62939e-006, 0.854523 )
+layers = 2
+width = 300.0
+height = 68.0
+depth = 34.0
+
 [node name="MarginContainer" parent="." instance=ExtResource( 3 )]
 player_node = NodePath("../Player")
