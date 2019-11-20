@@ -13,8 +13,7 @@ export var full_crouch_threshold = 2.5
 
 const standing_height = 56
 const standing_skating_height = 46
-const crouching_height = 30
-const crouching_skating_height = 36
+const crouching_height = 36
 
 func _ready():
 	nodes.ready(owner)
@@ -31,7 +30,7 @@ func _physics_process(delta):
 		state.ACTION_STATE.STANDING:
 			target_height = standing_skating_height if state.get_skating_state() else standing_height
 		state.ACTION_STATE.CROUCHING:
-			target_height = crouching_skating_height if state.get_skating_state() else crouching_height
+			target_height = crouching_height
 		state.ACTION_STATE.FRONT_PRONE:
 			target_height = standing_height
 			target_rotation = 90
