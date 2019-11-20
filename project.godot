@@ -8,9 +8,50 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Reference",
+"class": "FP",
+"language": "GDScript",
+"path": "res://Src/fp.gd"
+}, {
+"base": "Node",
+"class": "Model",
+"language": "GDScript",
+"path": "res://Src/model.gd"
+}, {
+"base": "Reference",
+"class": "PN",
+"language": "GDScript",
+"path": "res://Src/Consts/player_nodes.gd"
+}, {
+"base": "Reference",
+"class": "PP",
+"language": "GDScript",
+"path": "res://Src/Consts/player_state_props.gd"
+}, {
+"base": "Reference",
+"class": "PlayerInputs",
+"language": "GDScript",
+"path": "res://Src/Consts/player_inputs.gd"
+}, {
+"base": "Reference",
+"class": "UIN",
+"language": "GDScript",
+"path": "res://Src/Consts/ui_nodes.gd"
+}, {
+"base": "Reference",
+"class": "Util",
+"language": "GDScript",
+"path": "res://Src/util.gd"
+} ]
 _global_script_class_icons={
-
+"FP": "",
+"Model": "",
+"PN": "",
+"PP": "",
+"PlayerInputs": "",
+"UIN": "",
+"Util": ""
 }
 
 [application]
@@ -18,11 +59,6 @@ _global_script_class_icons={
 config/name="HS2"
 run/main_scene="res://Scenes/Maps/Scene.tscn"
 config/icon="res://icon.png"
-
-[autoload]
-
-FP="*res://Src/fp.gd"
-Util="*res://Src/util.gd"
 
 [display]
 

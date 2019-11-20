@@ -1,51 +1,52 @@
-extends Node
+extends Model
 
-var camera_rotation = Vector3.ZERO setget set_camera_rotation, get_camera_rotation
-var velocity = Vector3.ZERO setget set_velocity, get_velocity
-var wants_jump: bool = false setget set_wants_jump, get_wants_jump
-var grounded: bool = true setget set_grounded, get_grounded
-var crouching: bool = false setget set_crouching, get_crouching
-var skating: bool = false setget set_skating, get_skating
+var nodes = Util.NodeDependencies.new([
+	PN.Models.INPUT
+])
 
-signal grounded_changed(grounded)
-signal skating_changed(skating)
+enum ACTION_STATE {
+	STANDING,
+	CROUCHING,
+	FRONT_PRONE,
+	BACK_PRONE,
+	IN_AIR,
+	AIR_DIVE,
+	TUCK_ROLL,
+	WALL_SLIDE
+}
 
-func get_camera_rotation():
-	return camera_rotation
-
-func set_camera_rotation(new_camera_rotation):
-	camera_rotation = new_camera_rotation
-
-func get_velocity():
-	return velocity
-
-func set_velocity(new_velocity):
-	velocity = new_velocity
-
-func get_wants_jump():
-	return wants_jump
-
-func set_wants_jump(new_wants_jump):
-	wants_jump = new_wants_jump
-
-func get_crouching():
-	return crouching
-
-func set_crouching(new_crouching):
-	crouching = new_crouching
-
-func get_skating():
-	return skating
-
-func set_skating(new_skating):
-	if(skating != new_skating):
-		skating = new_skating
-		emit_signal("skating_changed", skating)
+func _ready():
+	nodes.ready(owner)
 	
-func get_grounded():
-	return grounded
+	self.properties = {
+		PP.VELOCITY: Vector3.ZERO,
+		PP.GROUNDED: true,
+		PP.SLIDING: false,
+		PP.DIVING: false
+	}
 
-func set_grounded(new_grounded):
-	if(grounded != new_grounded):
-		grounded = new_grounded
-		emit_signal("grounded_changed", grounded)
+func get_action_state():
+	var input = nodes.get(PN.Models.INPUT)
+	
+	if(get_prop(PP.GROUNDED)):
+		if(get_prop(PP.SLIDING)):
+			return ACTION_STATE.BACK_PRONE
+		if(get_prop(PP.DIVING)):
+			return ACTION_STATE.FRONT_PRONE
+		if(input.get_prop(PlayerInputs.CROUCH)):
+			return ACTION_STATE.CROUCHING
+		return ACTION_STATE.STANDING
+	else:
+		if(get_prop(PP.DIVING)):
+			return ACTION_STATE.AIR_DIVE
+		return ACTION_STATE.IN_AIR
+
+func get_skating_state():
+	var input = nodes.get(PN.Models.INPUT)
+	return get_prop(PP.GROUNDED) && input.get_prop(PlayerInputs.SKATE)
+
+func get_sliding_state():
+	return get_prop(PP.SLIDING)
+
+func get_diving_state():
+	return get_prop(PP.DIVING)

@@ -1,8 +1,8 @@
 extends Node
 
-const STATE = "StateModel"
 var nodes = Util.NodeDependencies.new([
-	STATE
+	PN.Models.INPUT,
+	PN.Models.STATE
 ])
 
 export (float) var bob_frequency = 0.03
@@ -14,12 +14,14 @@ func _ready():
 	nodes.ready(owner)
 
 func _physics_process(delta):
-	var state = nodes.get(STATE)
+	var input = nodes.get(PN.Models.INPUT)
+	var state = nodes.get(PN.Models.STATE)
 	
-	var vel = state.get("velocity")
-	var skate = state.get("skating")
+	var vel = state.get_prop(PP.VELOCITY)
+	var grounded = state.get_prop(PP.GROUNDED)
+	var skate = input.get_prop(PlayerInputs.SKATE)
 	
-	if(state.get("grounded") && !skate && vel.length() > 1):
+	if(grounded && !skate && vel.length() > 1):
 		bob += vel.length() * delta * bob_frequency
 	else:
 		if(bob <= PI):

@@ -1,6 +1,6 @@
-extends Node
+class_name Util
 
-func bool_to_int(boolean, number):
+static func bool_to_int(boolean, number):
 	return number if boolean else 0
 
 class NodeDependencies:
@@ -13,7 +13,6 @@ class NodeDependencies:
 	func ready(context: Node):
 		for node_name in node_names:
 			var node_inst = null
-			print(context.get_children())
 			if(context.name == node_name):
 				node_inst = context
 			else:

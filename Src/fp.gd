@@ -1,18 +1,18 @@
-extends Node
+class_name FP
 
-func compose(funcs: Array, val):
+static func compose(funcs: Array, val):
 	for i in range(0, funcs.size()):
 		var f = funcs[funcs.size() - 1 - i]
 		val = f.call(val)
 	return val
 
-func pipe(val, funcs: Array):
+static func pipe(val, funcs: Array):
 	for i in range(0, funcs.size()):
 		var f = funcs[i]
 		val = f.call(val)
 	return val
 
-func curry(inst: Object, func_name: String, args: Array):
+static func curry(inst: Object, func_name: String, args: Array):
 	match args.size():
 		0:
 			return Curried.new(inst, func_name)
@@ -25,16 +25,16 @@ func curry(inst: Object, func_name: String, args: Array):
 		_:
 			return null
 
-func add(a, b):
+static func add(a, b):
 	return a + b
 	
-func sub(a, b):
+static func sub(a, b):
 	return a - b
 	
-func mul(a, b):
+static func mul(a, b):
 	return a * b
 	
-func div(a, b):
+static func div(a, b):
 	return a / b
 
 class Curried:

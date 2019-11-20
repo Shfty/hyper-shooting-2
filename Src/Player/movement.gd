@@ -1,16 +1,16 @@
 extends Node
 
-const STATE = "StateModel"
-const KINEMATIC_BODY = "KinematicBody"
-const CAMERA_YAW = "CameraYaw"
-const UNCROUCH_RAYCAST = "UncrouchRayCast"
 var nodes = Util.NodeDependencies.new([
-	STATE,
-	KINEMATIC_BODY,
-	CAMERA_YAW,
-	UNCROUCH_RAYCAST
+	PN.Models.INPUT,
+	PN.Models.STATE,
+	PN.Spatial.KINEMATIC_BODY,
+	PN.Spatial.CAMERA_YAW,
+	PN.Spatial.UNCROUCH_RAYCAST,
+	PN.Controllers.CAPSULE_ROTATION,
+	PN.Controllers.STANCE
 ])
 
+var input = null
 var state = null
 
 export(float) var move_speed = 320.0
@@ -19,118 +19,128 @@ export(float) var stop_speed = 100.0
 
 export(float) var gravity = 800.0
 
+export(float) var slide_impulse = 1200.0
+export(float) var slide_skate_threshold = 450.0
+export(float) var slide_stop_threshold = 150.0
+
 export(float) var ground_friction = 6.0
+export(float) var prone_friction = 3.0
 export(float) var max_slope_angle = 65.0
 
 export(float) var ground_accelerate = 10.0
-export(float) var air_accelerate = 3.0
+export(float) var prone_accelerate = 0.0
+export(float) var air_accelerate = 1.5
 
 export(float) var jump_velocity = 270
 
 # Functions
 func _ready():
 	nodes.ready(owner)
-	state = nodes.get(STATE)
+	input = nodes.get(PN.Models.INPUT)
+	state = nodes.get(PN.Models.STATE)
 
 func _physics_process(delta):
-	var wish_vector = get_wish_vector("move_left", "move_right", "move_forward", "move_back")
-	check_jump()
-	check_crouch()
-	check_skate()
+	var wish_vector = input.get_prop(PlayerInputs.WISH_VECTOR).rotated(
+		Vector3(0, 1, 0), input.get_prop(PlayerInputs.CAMERA_ROTATION).y
+	)
 	
-	var move_walk = FP.curry(self, "move_walk", [delta, wish_vector])
+	var move_ground = FP.curry(self, "move_ground", [delta, wish_vector])
 	var move_air = FP.curry(self, "move_air", [delta, wish_vector])
 	
-	state.set_velocity(
-		FP.pipe(state.get_velocity(), [
-			move_walk if nodes.get(KINEMATIC_BODY).is_on_floor() else move_air,
+	state.set_prop(
+		PP.VELOCITY,
+		FP.pipe(state.get_prop(PP.VELOCITY), [
+			move_ground if nodes.get(PN.Spatial.KINEMATIC_BODY).is_on_floor() else move_air,
 			FP.curry(self, "add_gravity", [delta]),
 			FP.curry(self, "apply_velocity", [])
 		])
 	)
 
-func check_jump():
-	if(!is_action_pressed("jump")):
-		state.set_wants_jump(false)
-		return
-	
-	if(Input.is_action_just_pressed("jump")):
-		state.set_wants_jump(true)
-
-func check_skate():
-	if(!is_action_pressed("skate")):
-		state.set_skating(false)
-		return
-	
-	if(Input.is_action_just_pressed("skate")):
-		state.set_skating(true)
-
-func check_crouch():
-	var uncrouch_raycast = nodes.get(UNCROUCH_RAYCAST)
-	if(!is_action_pressed("crouch") && !uncrouch_raycast.is_colliding()):
-		state.set_crouching(false)
-		return
-	
-	if(Input.is_action_just_pressed("crouch")):
-		state.set_crouching(true)
-
 func apply_velocity(velocity):
-	return nodes.get(KINEMATIC_BODY).move_and_slide_with_snap(velocity, Vector3.DOWN, Vector3.UP, !state.get_skating(), 4, deg2rad(max_slope_angle))
+	return nodes.get(PN.Spatial.KINEMATIC_BODY).move_and_slide_with_snap(velocity, Vector3.DOWN, Vector3.UP, !input.get_prop(PlayerInputs.SKATE), 4, deg2rad(max_slope_angle))
 
 func add_gravity(delta: float, velocity: Vector3):
 	return velocity - Vector3(0, gravity * delta, 0)
 
-func is_action_pressed(action: String):
-	return Input.is_action_pressed(action)
-
-func get_wish_axis(neg_action: String, pos_action: String):
-	return Util.bool_to_int(is_action_pressed(neg_action), -1) + Util.bool_to_int(is_action_pressed(pos_action), 1)
-
-func get_wish_vector(left_action: String, right_action: String, forward_action: String, back_action: String):
-	return Vector3(
-		get_wish_axis(left_action, right_action),
-		0,
-		get_wish_axis(forward_action, back_action)
-	).rotated(
-		Vector3(0, 1, 0), nodes.get(CAMERA_YAW).rotation.y
-	).normalized()
-
-func move(delta: float, wish_vec: Vector3, grounded: bool, accelerate: float, velocity: Vector3):
-	var state = nodes.get(STATE)
-	
-	velocity = friction(delta, grounded, velocity)
-	var wish_speed = wish_vec.length() * (crouch_speed if state.get_crouching() && state.get_grounded() else move_speed)
+func move(delta: float, wish_vec: Vector3, grounded: bool, friction: float, speed_cap: float, accelerate: float, velocity: Vector3):
+	velocity = friction(delta, grounded, ground_friction, velocity)
+	var wish_speed = wish_vec.length() * speed_cap
 	return accelerate(delta, wish_vec, wish_speed, accelerate, velocity)
 
-func move_walk(delta: float, wish_vec: Vector3, velocity: Vector3):
-	if(state.get_wants_jump()):
-		state.set_wants_jump(false)
-		state.set_skating(false)
-		velocity.y = jump_velocity
-		return move_air(delta, wish_vec, velocity)
+var slide_limit = false
+
+func move_ground(delta: float, wish_vec: Vector3, velocity: Vector3):
+	var stance = nodes.get(PN.Controllers.STANCE)
+	var capsule_rotation = nodes.get(PN.Controllers.CAPSULE_ROTATION)
 	
-	state.set_grounded(true)
+	if(state.get_diving_state() && !input.get_prop(PlayerInputs.CROUCH)):
+		state.set_prop(PP.DIVING, false)
 	
-	if(state.get_skating()):
-		return move_air(delta, wish_vec, velocity)
+	if(state.get_diving_state()):
+		if(input.get_prop(PlayerInputs.JUMP)):
+			state.set_prop(PP.DIVING, false)
+			input.set_prop(PlayerInputs.JUMP, false)
+	else:
+		if(input.get_prop(PlayerInputs.JUMP)):
+			if(input.get_prop(PlayerInputs.DIVE) && !state.get_sliding_state()):
+				state.set_prop(PP.DIVING, true)
+				input.set_prop(PlayerInputs.JUMP, false)
+				capsule_rotation.set("rot_forward", wish_vec)
+				input.set("yaw_basis", rad2deg(input.get_prop(PlayerInputs.CAMERA_ROTATION).y))
+			
+			if(state.get_prop(PP.SLIDING)):
+				state.set_prop(PP.SLIDING, false)
+				if(velocity.length() > slide_skate_threshold):
+					velocity = velocity.normalized() * slide_skate_threshold
+			
+			input.set_prop(PlayerInputs.JUMP, false)
+			input.set_prop(PlayerInputs.SKATE, false)
+			velocity.y = jump_velocity
+			return move_air(delta, wish_vec, velocity)
 	
-	return move(delta, wish_vec, true, ground_accelerate, velocity)
+	if(state.get_prop(PP.SLIDING) && state.get_prop(PP.VELOCITY).length() < slide_stop_threshold && !input.get_prop(PlayerInputs.CROUCH)):
+		state.set_prop(PP.SLIDING, false)
+	
+	if(input.get_prop(PlayerInputs.SLIDE) && state.get_action_state() == state.ACTION_STATE.CROUCHING && !stance.is_fully_crouched()):
+		state.set_prop(PP.SLIDING, true)
+		capsule_rotation.set("rot_forward", wish_vec)
+		input.set("yaw_basis", rad2deg(input.get_prop(PlayerInputs.CAMERA_ROTATION).y))
+		if(!state.get_skating_state()):
+			slide_limit = true
+			velocity = wish_vec * slide_impulse
+	
+	state.set_prop(PP.GROUNDED, true)
+	
+	if(state.get_sliding_state() && slide_limit && velocity.length() < slide_skate_threshold):
+		slide_limit = false
+	
+	if(state.get_skating_state()):
+		var is_sliding_limited = state.get_sliding_state() && slide_limit == true
+		if(!is_sliding_limited):
+			return move_air(delta, wish_vec, velocity)
+	
+	var is_prone = state.get_action_state() == state.ACTION_STATE.BACK_PRONE || state.get_action_state() == state.ACTION_STATE.FRONT_PRONE
+	var friction = prone_friction if is_prone else ground_friction
+	var speed_cap = crouch_speed if state.get_action_state() == state.ACTION_STATE.CROUCHING else move_speed
+	var accelerate = prone_accelerate if is_prone else ground_accelerate
+	
+	return move(delta, wish_vec, true, friction, speed_cap, accelerate, velocity)
 
 func move_air(delta: float, wish_vec: Vector3, velocity: Vector3):
-	if(!state.get_skating()):
-		state.set_grounded(false)
-	return move(delta, wish_vec, false, air_accelerate, velocity)
+	if(!input.get_prop(PlayerInputs.SKATE)):
+		state.set_prop(PP.GROUNDED, false)
+	return move(delta, wish_vec, false, 0, move_speed, air_accelerate, velocity)
 
-func friction(delta: float, walking: bool, velocity: Vector3):
+func friction(delta: float, grounded: bool, friction: float, velocity: Vector3):
 	var speed = velocity.length()
 	if(speed < 1):
 		velocity.x = 0
 		velocity.z = 0
 	
 	var drop = 0
-	if(walking):
+	if(grounded):
 		var control = stop_speed if speed < stop_speed else speed
-		drop = control * ground_friction * delta
+		drop = control * friction * delta
 	
 	var new_speed = speed - drop
 	if(new_speed < 0):
