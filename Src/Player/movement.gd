@@ -22,6 +22,7 @@ export(float) var gravity = 800.0
 export(float) var slide_impulse = 1200.0
 export(float) var slide_skate_threshold = 450.0
 export(float) var slide_stop_threshold = 150.0
+export(float) var dive_stop_threshold = 50.0
 
 export(float) var ground_friction = 6.0
 export(float) var prone_friction = 3.0
@@ -32,6 +33,17 @@ export(float) var prone_accelerate = 0.0
 export(float) var air_accelerate = 1.5
 
 export(float) var jump_velocity = 270
+
+# @TODO: Fix prone collision
+# @TODO: Prevent aerial movement unlock from applying during dives
+# @TODO: Trigger back prone if over-aiming backward during a jump
+# @TODO: Proper dodge roll interpolation
+# @TODO: Align wish vector to slopes
+# @TODO: Fix velocity loss on half pipes
+# @TODO: Prone rotation
+# @TODO: Go to full crouch, rotate, then uncrouch on prone recovery
+# @TODO: Figure out solution to height difference between crouch / prone
+# @TODO: Fix broken crouch test CSG
 
 # Functions
 func _ready():
@@ -73,33 +85,45 @@ func move_ground(delta: float, wish_vec: Vector3, velocity: Vector3):
 	var stance = nodes.get(PN.Controllers.STANCE)
 	var capsule_rotation = nodes.get(PN.Controllers.CAPSULE_ROTATION)
 	
-	if(state.get_diving_state() && !input.get_prop(PlayerInputs.CROUCH)):
-		state.set_prop(PP.DIVING, false)
-	
 	if(state.get_diving_state()):
-		if(input.get_prop(PlayerInputs.JUMP)):
+		if(state.get_prop(PP.VELOCITY).length() < dive_stop_threshold  && !input.get_prop(PlayerInputs.CROUCH)):
 			state.set_prop(PP.DIVING, false)
 			input.set_prop(PlayerInputs.JUMP, false)
-	else:
-		if(input.get_prop(PlayerInputs.JUMP)):
-			if(input.get_prop(PlayerInputs.DIVE) && !state.get_sliding_state()):
+	
+	if(state.get_sliding_state()):
+		if(state.get_prop(PP.VELOCITY).length() < slide_stop_threshold && !input.get_prop(PlayerInputs.CROUCH)):
+			state.set_prop(PP.SLIDING, false)
+			input.set_prop(PlayerInputs.JUMP, false)
+
+	if(input.get_prop(PlayerInputs.JUMP)):
+		if(state.get_sliding_state()):
+			if(state.get_prop(PP.VELOCITY).length() < slide_stop_threshold):
+				state.set_prop(PP.SLIDING, false)
+				input.set_prop(PlayerInputs.JUMP, false)
+		elif(state.get_diving_state()):
+			if(state.get_prop(PP.VELOCITY).length() < dive_stop_threshold):
+				state.set_prop(PP.DIVING, false)
+				input.set_prop(PlayerInputs.JUMP, false)
+		else:
+			if(input.get_prop(PlayerInputs.DIVE)):
 				state.set_prop(PP.DIVING, true)
 				input.set_prop(PlayerInputs.JUMP, false)
 				capsule_rotation.set("rot_forward", wish_vec)
 				input.set("yaw_basis", rad2deg(input.get_prop(PlayerInputs.CAMERA_ROTATION).y))
+				
+				if(!state.get_skating_state()):
+					velocity.y = jump_velocity
+					return move_air(delta, wish_vec, velocity)
+			else:
+				if(state.get_prop(PP.SLIDING)):
+					state.set_prop(PP.SLIDING, false)
+					if(velocity.length() > slide_skate_threshold):
+						velocity = velocity.normalized() * slide_skate_threshold
 			
-			if(state.get_prop(PP.SLIDING)):
-				state.set_prop(PP.SLIDING, false)
-				if(velocity.length() > slide_skate_threshold):
-					velocity = velocity.normalized() * slide_skate_threshold
-			
-			input.set_prop(PlayerInputs.JUMP, false)
-			input.set_prop(PlayerInputs.SKATE, false)
-			velocity.y = jump_velocity
-			return move_air(delta, wish_vec, velocity)
-	
-	if(state.get_prop(PP.SLIDING) && state.get_prop(PP.VELOCITY).length() < slide_stop_threshold && !input.get_prop(PlayerInputs.CROUCH)):
-		state.set_prop(PP.SLIDING, false)
+				input.set_prop(PlayerInputs.JUMP, false)
+				input.set_prop(PlayerInputs.SKATE, false)
+				velocity.y = jump_velocity
+				return move_air(delta, wish_vec, velocity)
 	
 	if(input.get_prop(PlayerInputs.SLIDE) && state.get_action_state() == state.ACTION_STATE.CROUCHING && !stance.is_fully_crouched()):
 		state.set_prop(PP.SLIDING, true)
