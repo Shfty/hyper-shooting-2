@@ -20,7 +20,7 @@ func _physics_process(delta):
 	var camera_yaw = nodes.get(PN.Spatial.CAMERA_YAW)
 	var camera_pitch = nodes.get(PN.Spatial.CAMERA_PITCH)
 	
-	var free_look = state.get_skating_state() || !state.get_prop(PP.GROUNDED)
+	var free_look = state.get_skating_state() || (!state.get_prop(PP.DIVING) && !state.get_prop(PP.GROUNDED))
 	input.set("clamp_pitch", !free_look)
 	
 	var target_pitch_min = -89.0
@@ -36,6 +36,11 @@ func _physics_process(delta):
 		state.ACTION_STATE.FRONT_PRONE:
 			target_pitch_min = 0
 			target_pitch_max = 44
+			clamp_yaw = true
+			yaw_limit = 80
+		state.ACTION_STATE.AIR_DIVE:
+			target_pitch_min = -80
+			target_pitch_max = 80
 			clamp_yaw = true
 			yaw_limit = 80
 	

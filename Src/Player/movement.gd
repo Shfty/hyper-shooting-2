@@ -35,7 +35,6 @@ export(float) var air_accelerate = 1.5
 export(float) var jump_velocity = 270
 
 # @TODO: Fix prone collision
-# @TODO: Prevent aerial movement unlock from applying during dives
 # @TODO: Trigger back prone if over-aiming backward during a jump
 # @TODO: Proper dodge roll interpolation
 # @TODO: Align wish vector to slopes
