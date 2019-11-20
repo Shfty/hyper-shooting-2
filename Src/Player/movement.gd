@@ -85,23 +85,23 @@ func move_ground(delta: float, wish_vec: Vector3, velocity: Vector3):
 	var stance = nodes.get(PN.Controllers.STANCE)
 	var capsule_rotation = nodes.get(PN.Controllers.CAPSULE_ROTATION)
 	
-	if(state.get_diving_state()):
+	if(state.get_diving_state() && !state.get_skating_state()):
 		if(state.get_prop(PP.VELOCITY).length() < dive_stop_threshold  && !input.get_prop(PlayerInputs.CROUCH)):
 			state.set_prop(PP.DIVING, false)
 			input.set_prop(PlayerInputs.JUMP, false)
 	
-	if(state.get_sliding_state()):
+	if(state.get_sliding_state() && !state.get_skating_state()):
 		if(state.get_prop(PP.VELOCITY).length() < slide_stop_threshold && !input.get_prop(PlayerInputs.CROUCH)):
 			state.set_prop(PP.SLIDING, false)
 			input.set_prop(PlayerInputs.JUMP, false)
 
 	if(input.get_prop(PlayerInputs.JUMP)):
 		if(state.get_sliding_state()):
-			if(state.get_prop(PP.VELOCITY).length() < slide_stop_threshold):
+			if(state.get_prop(PP.VELOCITY).length() < slide_stop_threshold || state.get_skating_state()):
 				state.set_prop(PP.SLIDING, false)
 				input.set_prop(PlayerInputs.JUMP, false)
 		elif(state.get_diving_state()):
-			if(state.get_prop(PP.VELOCITY).length() < dive_stop_threshold):
+			if(state.get_prop(PP.GROUNDED)):
 				state.set_prop(PP.DIVING, false)
 				input.set_prop(PlayerInputs.JUMP, false)
 		else:
