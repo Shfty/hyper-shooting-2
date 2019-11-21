@@ -20,11 +20,6 @@ func _physics_process(delta):
 	var dir = rot_forward.normalized()
 	var axis = dir.cross(Vector3.DOWN).normalized()
 	
-	#var prev_rotation = player.rotation
-	player.set_rotation(Vector3.ZERO)
-	player.rotate(axis, deg2rad(rot_angle))
-	
-	#var delta_rotation = player.rotation - prev_rotation
-	# @TODO: Apply y axis counter-translation to kinematic body
+	player.global_transform.basis = Basis(axis, deg2rad(rot_angle))
 	
 	

@@ -7,12 +7,12 @@ var nodes = Util.NodeDependencies.new([
 	PN.Controllers.CAPSULE_ROTATION
 ])
 
-export var crouch_transition_speed = 15
-export var rotate_transition_speed = 15
-export var full_crouch_threshold = 2.5
+export var crouch_transition_speed: float = 15.0
+export var rotate_transition_speed: float = 15.0
+export var full_crouch_threshold = 1.0
 
 const standing_height = 56
-const standing_skating_height = 46
+const standing_skating_height = 50
 const crouching_height = 36
 
 func _ready():

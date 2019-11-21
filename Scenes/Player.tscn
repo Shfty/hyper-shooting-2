@@ -1,37 +1,42 @@
 [gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Scenes/GunMesh.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Src/Player/input.gd" type="Script" id=2]
-[ext_resource path="res://Src/Player/state.gd" type="Script" id=3]
-[ext_resource path="res://Src/Player/stance.gd" type="Script" id=4]
-[ext_resource path="res://Src/Player/capsule_height.gd" type="Script" id=5]
-[ext_resource path="res://Src/Player/capsule_rotation.gd" type="Script" id=6]
-[ext_resource path="res://Src/Player/camera.gd" type="Script" id=7]
-[ext_resource path="res://Src/Player/movement.gd" type="Script" id=8]
-[ext_resource path="res://Src/Player/bob.gd" type="Script" id=9]
-[ext_resource path="res://Src/Player/view_bob.gd" type="Script" id=10]
-[ext_resource path="res://Src/Player/weapon_bob.gd" type="Script" id=11]
-[ext_resource path="res://Src/Player/weapon_momentum.gd" type="Script" id=12]
-[ext_resource path="res://Src/Player/lean.gd" type="Script" id=13]
-[ext_resource path="res://Src/Player/mesh.gd" type="Script" id=14]
+[ext_resource path="res://Scenes/PlayerMesh.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Src/Player/input.gd" type="Script" id=3]
+[ext_resource path="res://Src/Player/state.gd" type="Script" id=4]
+[ext_resource path="res://Src/Player/stance.gd" type="Script" id=5]
+[ext_resource path="res://Src/Player/capsule_height.gd" type="Script" id=6]
+[ext_resource path="res://Src/Player/capsule_rotation.gd" type="Script" id=7]
+[ext_resource path="res://Src/Player/camera.gd" type="Script" id=8]
+[ext_resource path="res://Src/Player/movement.gd" type="Script" id=9]
+[ext_resource path="res://Src/Player/bob.gd" type="Script" id=10]
+[ext_resource path="res://Src/Player/view_bob.gd" type="Script" id=11]
+[ext_resource path="res://Src/Player/weapon_bob.gd" type="Script" id=12]
+[ext_resource path="res://Src/Player/weapon_momentum.gd" type="Script" id=13]
+[ext_resource path="res://Src/Player/lean.gd" type="Script" id=14]
 
-[sub_resource type="CapsuleShape" id=1]
+[sub_resource type="CylinderShape" id=1]
 margin = 1.0
 radius = 15.0
-height = 26.0
+height = 56.0
 
 [node name="Spatial" type="Spatial"]
 
 [node name="CameraOffset" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 22, 0 )
 
 [node name="CameraYaw" type="Spatial" parent="CameraOffset"]
+
+[node name="ModelRotation" type="RemoteTransform" parent="CameraOffset/CameraYaw"]
+remote_path = NodePath("../../../KinematicBody/PlayerMesh")
+update_position = false
+update_scale = false
 
 [node name="CameraPitch" type="Spatial" parent="CameraOffset/CameraYaw"]
 transform = Transform( 1, 0, 0, 0, 1, 1.06581e-014, 0, -1.06581e-014, 1, 0, 0, -5.68248e-007 )
 
 [node name="Camera" type="Camera" parent="CameraOffset/CameraYaw/CameraPitch"]
-cull_mask = 1048574
+cull_mask = 1048573
 current = true
 fov = 100.0
 near = 1.0
@@ -45,124 +50,72 @@ transform = Transform( 1, 0, 0, 0, 0.97437, 0.224951, 0, -0.224951, 0.97437, 0, 
 [node name="GunMesh" parent="CameraOffset/CameraYaw/CameraPitch/Camera/GunAnchor/GunBobAnchor" instance=ExtResource( 1 )]
 
 [node name="UncrouchRayCast" type="RayCast" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -13, 0 )
 enabled = true
 cast_to = Vector3( 0, 42, 0 )
 
 [node name="KinematicBody" type="KinematicBody" parent="."]
+collision_layer = 2
+collision_mask = 7
 collision/safe_margin = 1.0
 
 [node name="CollisionShape" type="CollisionShape" parent="KinematicBody"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 0, 0 )
 shape = SubResource( 1 )
 
 [node name="HeadAnchor" type="Spatial" parent="KinematicBody"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 22, 0 )
+
+[node name="CameraTranslation" type="RemoteTransform" parent="KinematicBody/HeadAnchor"]
+remote_path = NodePath("../../../CameraOffset")
+update_rotation = false
+update_scale = false
 
 [node name="FeetAnchor" type="Spatial" parent="KinematicBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -13, 0 )
 
-[node name="PlayerMesh" type="Spatial" parent="KinematicBody"]
+[node name="PlayerMesh" parent="KinematicBody" instance=ExtResource( 2 )]
 
-[node name="CSGSphere" type="CSGSphere" parent="KinematicBody/PlayerMesh"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 22, 0 )
-radius = 6.0
-
-[node name="CSGCylinder" type="CSGCylinder" parent="KinematicBody/PlayerMesh"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.22156, 0 )
-radius = 2.0
-height = 18.0
-
-[node name="Shoulders" type="CSGCylinder" parent="KinematicBody/PlayerMesh"]
-transform = Transform( -4.37114e-008, -1, 0, 1, -4.37114e-008, 0, 0, 0, 1, 0, 13, 0 )
-radius = 2.0
-height = 15.0
-
-[node name="LeftUpperArm" type="CSGCylinder" parent="KinematicBody/PlayerMesh/Shoulders"]
-transform = Transform( -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 0, 0, 1, -2.5, 5.5, 0 )
-radius = 2.0
-height = 8.0
-
-[node name="LeftForeArm" type="CSGCylinder" parent="KinematicBody/PlayerMesh/Shoulders/LeftUpperArm"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-008, -1, 0, 1, -4.37114e-008, 0, -2, -2 )
-radius = 2.0
-height = 8.0
-
-[node name="RightUpperArm" type="CSGCylinder" parent="KinematicBody/PlayerMesh/Shoulders"]
-transform = Transform( -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 0, 0, 1, -2, -5.5, 0 )
-radius = 2.0
-height = 8.0
-
-[node name="RightForeArm" type="CSGCylinder" parent="KinematicBody/PlayerMesh/Shoulders/RightUpperArm"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-008, -1, 0, 1, -4.37114e-008, 0, -2.5, -2 )
-radius = 2.0
-height = 8.0
-
-[node name="Hips" type="CSGCylinder" parent="KinematicBody/PlayerMesh"]
-transform = Transform( -4.37114e-008, -1, 0, 1, -4.37114e-008, 0, 0, 0, 1, 0, -3.5, 0 )
-radius = 2.0
-height = 15.0
-
-[node name="LeftThigh" type="CSGCylinder" parent="KinematicBody/PlayerMesh/Hips"]
-transform = Transform( -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 0, 0, 1, -5.5, 5.5, 0 )
-radius = 2.0
-height = 15.0
-
-[node name="LeftThigh2" type="CSGCylinder" parent="KinematicBody/PlayerMesh/Hips/LeftThigh"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -11.5, 0 )
-radius = 2.0
-height = 15.0
-
-[node name="RightThigh" type="CSGCylinder" parent="KinematicBody/PlayerMesh/Hips"]
-transform = Transform( -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 0, 0, 1, -5.5, -5.50286, 0 )
-radius = 2.0
-height = 15.0
-
-[node name="LeftThigh3" type="CSGCylinder" parent="KinematicBody/PlayerMesh/Hips/RightThigh"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -11.5, 0 )
-radius = 2.0
-height = 15.0
+[node name="UncrouchTransform" type="RemoteTransform" parent="KinematicBody"]
+remote_path = NodePath("../../UncrouchRayCast")
+update_rotation = false
+update_scale = false
 
 [node name="Models" type="Node" parent="."]
 
 [node name="InputModel" type="Node" parent="Models"]
-script = ExtResource( 2 )
+script = ExtResource( 3 )
 
 [node name="StateModel" type="Node" parent="Models"]
-script = ExtResource( 3 )
+script = ExtResource( 4 )
 
 [node name="Controllers" type="Node" parent="."]
 
 [node name="StanceController" type="Node" parent="Controllers"]
-script = ExtResource( 4 )
-
-[node name="CapsuleHeightController" type="Node" parent="Controllers"]
 script = ExtResource( 5 )
 
-[node name="CapsuleRotationController" type="Node" parent="Controllers"]
+[node name="CapsuleHeightController" type="Node" parent="Controllers"]
 script = ExtResource( 6 )
 
-[node name="CameraController" type="Node" parent="Controllers"]
+[node name="CapsuleRotationController" type="Node" parent="Controllers"]
 script = ExtResource( 7 )
 
-[node name="MovementController" type="Node" parent="Controllers"]
+[node name="CameraController" type="Node" parent="Controllers"]
 script = ExtResource( 8 )
 
-[node name="BobController" type="Node" parent="Controllers"]
+[node name="MovementController" type="Node" parent="Controllers"]
 script = ExtResource( 9 )
 
-[node name="ViewBobController" type="Node" parent="Controllers"]
+[node name="BobController" type="Node" parent="Controllers"]
 script = ExtResource( 10 )
 
-[node name="WeaponBobController" type="Node" parent="Controllers"]
+[node name="ViewBobController" type="Node" parent="Controllers"]
 script = ExtResource( 11 )
+
+[node name="WeaponBobController" type="Node" parent="Controllers"]
+script = ExtResource( 12 )
 bob_magnitude = 3.0
 
 [node name="WeaponMomentumController" type="Node" parent="Controllers"]
-script = ExtResource( 12 )
-
-[node name="LeanController" type="Node" parent="Controllers"]
 script = ExtResource( 13 )
 
-[node name="MeshController" type="Node" parent="Controllers"]
+[node name="LeanController" type="Node" parent="Controllers"]
 script = ExtResource( 14 )

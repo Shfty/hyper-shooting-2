@@ -26,8 +26,8 @@ func _physics_process(delta):
 	var target = Vector3()
 	if(!grounded || skating):
 		var vel = state.get_prop(PP.VELOCITY)
-		vel = vel.rotated(Vector3.UP, -camera_yaw.rotation.y)
-		vel = vel.rotated(Vector3.RIGHT, -camera_pitch.rotation.x)
+		vel = vel.rotated(Vector3.UP, -camera_yaw.global_transform.basis.get_euler().y)
+		vel = vel.rotated(Vector3.RIGHT, -camera_pitch.global_transform.basis.get_euler().x)
 		
 		target = vel * momentum_scale * -0.002
 

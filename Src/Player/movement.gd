@@ -18,31 +18,32 @@ export(float) var crouch_speed = 200.0
 export(float) var stop_speed = 100.0
 
 export(float) var gravity = 800.0
+export(float) var jump_impulse = 270
 
 export(float) var slide_impulse = 1200.0
-export(float) var slide_skate_threshold = 450.0
+export(float) var slide_skate_threshold = 500.0
 export(float) var slide_stop_threshold = 150.0
+
+export(float) var dive_impulse = 400.0
 export(float) var dive_stop_threshold = 50.0
 
 export(float) var ground_friction = 6.0
 export(float) var prone_friction = 3.0
-export(float) var max_slope_angle = 65.0
+export(float) var max_slope_angle = 89.0
 
 export(float) var ground_accelerate = 10.0
 export(float) var prone_accelerate = 0.0
 export(float) var air_accelerate = 1.5
 
-export(float) var jump_velocity = 270
+export(float) var ground_trace_distance = 15.0
 
+# @TODO: Align wish vector to slopes
+# @TODO: Prone rotation
 # @TODO: Fix prone collision
 # @TODO: Trigger back prone if over-aiming backward during a jump
 # @TODO: Proper dodge roll interpolation
-# @TODO: Align wish vector to slopes
-# @TODO: Fix velocity loss on half pipes
-# @TODO: Prone rotation
 # @TODO: Go to full crouch, rotate, then uncrouch on prone recovery
 # @TODO: Figure out solution to height difference between crouch / prone
-# @TODO: Fix broken crouch test CSG
 
 # Functions
 func _ready():
@@ -51,27 +52,54 @@ func _ready():
 	state = nodes.get(PN.Models.STATE)
 
 func _physics_process(delta):
-	var wish_vector = input.get_prop(PlayerInputs.WISH_VECTOR).rotated(
-		Vector3(0, 1, 0), input.get_prop(PlayerInputs.CAMERA_ROTATION).y
+	# Fetch wish vector
+	var wish_vector = input.get_prop(PlayerInputs.WISH_VECTOR)
+	
+	# Rotate by camera yaw
+	var camera_yaw = nodes.get(PN.Spatial.CAMERA_YAW)
+	wish_vector = wish_vector.rotated(
+		Vector3(0, 1, 0), camera_yaw.global_transform.basis.get_euler().y
 	)
 	
+	# Project onto wall if colliding
+	var body = nodes.get(PN.Spatial.KINEMATIC_BODY)
+	var slide_count = body.get_slide_count()
+	if(body.is_on_wall() && slide_count > 0):
+		var collision = body.get_slide_collision(0)
+		var wall_normal = collision.normal
+		var wall_perp = wall_normal.cross(Vector3.UP).normalized()
+		var wish_sign = wish_vector.dot(wall_perp)
+		
+		var prev_wish_vector = wish_vector
+		wish_vector = wall_perp.normalized() * wish_sign
+	
+	# Curry ground and move functions
 	var move_ground = FP.curry(self, "move_ground", [delta, wish_vector])
 	var move_air = FP.curry(self, "move_air", [delta, wish_vector])
 	
+	# Process velocity
 	state.set_prop(
 		PP.VELOCITY,
 		FP.pipe(state.get_prop(PP.VELOCITY), [
 			move_ground if nodes.get(PN.Spatial.KINEMATIC_BODY).is_on_floor() else move_air,
 			FP.curry(self, "add_gravity", [delta]),
-			FP.curry(self, "apply_velocity", [])
+			FP.curry(self, "apply_velocity", [delta])
 		])
 	)
-
-func apply_velocity(velocity):
-	return nodes.get(PN.Spatial.KINEMATIC_BODY).move_and_slide_with_snap(velocity, Vector3.DOWN, Vector3.UP, !input.get_prop(PlayerInputs.SKATE), 4, deg2rad(max_slope_angle))
+	
+func apply_velocity(delta, velocity):
+	var body = nodes.get(PN.Spatial.KINEMATIC_BODY)
+	body.global_transform.origin += body.get_floor_velocity()
+	
+	var skate = state.get_skating_state()
+	var ground_vector = Vector3.DOWN * ground_trace_distance if state.get_prop(PP.GROUNDED) && !skate else Vector3.ZERO
+	velocity = body.move_and_slide_with_snap(velocity, ground_vector, Vector3.UP, !skate, 4, deg2rad(max_slope_angle))
+	return velocity
 
 func add_gravity(delta: float, velocity: Vector3):
-	return velocity - Vector3(0, gravity * delta, 0)
+	if(!nodes.get(PN.Spatial.KINEMATIC_BODY).is_on_floor()):
+		return velocity - Vector3(0, gravity * delta, 0)
+	return velocity
 
 func move(delta: float, wish_vec: Vector3, grounded: bool, friction: float, speed_cap: float, accelerate: float, velocity: Vector3):
 	velocity = friction(delta, grounded, ground_friction, velocity)
@@ -111,7 +139,8 @@ func move_ground(delta: float, wish_vec: Vector3, velocity: Vector3):
 				input.set("yaw_basis", rad2deg(input.get_prop(PlayerInputs.CAMERA_ROTATION).y))
 				
 				if(!state.get_skating_state()):
-					velocity.y = jump_velocity
+					velocity = wish_vec.normalized() * dive_impulse
+					velocity.y = jump_impulse
 					return move_air(delta, wish_vec, velocity)
 			else:
 				if(state.get_prop(PP.SLIDING)):
@@ -120,8 +149,7 @@ func move_ground(delta: float, wish_vec: Vector3, velocity: Vector3):
 						velocity = velocity.normalized() * slide_skate_threshold
 			
 				input.set_prop(PlayerInputs.JUMP, false)
-				input.set_prop(PlayerInputs.SKATE, false)
-				velocity.y = jump_velocity
+				velocity.y = jump_impulse
 				return move_air(delta, wish_vec, velocity)
 	
 	if(input.get_prop(PlayerInputs.SLIDE) && state.get_action_state() == state.ACTION_STATE.CROUCHING && !stance.is_fully_crouched()):

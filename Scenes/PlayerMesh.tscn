@@ -1,0 +1,66 @@
+[gd_scene format=2]
+
+[node name="PlayerMesh" type="Spatial"]
+
+[node name="CSGSphere" type="CSGSphere" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 22, 0 )
+layers = 2
+radius = 6.0
+
+[node name="CSGCylinder" type="CSGCylinder" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.22156, 0 )
+layers = 2
+radius = 2.0
+height = 18.0
+
+[node name="Shoulders" type="CSGCylinder" parent="."]
+transform = Transform( -4.37114e-008, -1, 0, 1, -4.37114e-008, 0, 0, 0, 1, 0, 13, 0 )
+layers = 2
+radius = 2.0
+height = 15.0
+
+[node name="LeftUpperArm" type="CSGCylinder" parent="Shoulders"]
+transform = Transform( -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 0, 0, 1, -2.5, 5.5, 0 )
+radius = 2.0
+height = 8.0
+
+[node name="LeftForeArm" type="CSGCylinder" parent="Shoulders/LeftUpperArm"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-008, -1, 0, 1, -4.37114e-008, 0, -2, -2 )
+radius = 2.0
+height = 8.0
+
+[node name="RightUpperArm" type="CSGCylinder" parent="Shoulders"]
+transform = Transform( -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 0, 0, 1, -2, -5.5, 0 )
+radius = 2.0
+height = 8.0
+
+[node name="RightForeArm" type="CSGCylinder" parent="Shoulders/RightUpperArm"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-008, -1, 0, 1, -4.37114e-008, 0, -2.5, -2 )
+radius = 2.0
+height = 8.0
+
+[node name="Hips" type="CSGCylinder" parent="."]
+transform = Transform( -4.37114e-008, -1, 0, 1, -4.37114e-008, 0, 0, 0, 1, 0, -3.5, 0 )
+layers = 2
+radius = 2.0
+height = 15.0
+
+[node name="LeftThigh" type="CSGCylinder" parent="Hips"]
+transform = Transform( -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 0, 0, 1, -5.5, 5.5, 0 )
+radius = 2.0
+height = 15.0
+
+[node name="LeftThigh2" type="CSGCylinder" parent="Hips/LeftThigh"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -11.5, 0 )
+radius = 2.0
+height = 15.0
+
+[node name="RightThigh" type="CSGCylinder" parent="Hips"]
+transform = Transform( -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 0, 0, 1, -5.5, -5.50286, 0 )
+radius = 2.0
+height = 15.0
+
+[node name="LeftThigh3" type="CSGCylinder" parent="Hips/RightThigh"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -11.5, 0 )
+radius = 2.0
+height = 15.0

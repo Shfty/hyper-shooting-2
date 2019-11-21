@@ -1,128 +1,331 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
-[ext_resource path="res://Scenes/UI.tscn" type="PackedScene" id=3]
+[ext_resource path="res://icon.png" type="Texture" id=1]
+[ext_resource path="res://Src/Geometry/height_test.gd" type="Script" id=2]
+[ext_resource path="res://Src/Geometry/moving_platform.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/Spline.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Src/Geometry/button.gd" type="Script" id=5]
+[ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/UI.tscn" type="PackedScene" id=7]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_color = Color( 0.65098, 0.737255, 0.741176, 1 )
-albedo_texture = ExtResource( 2 )
+albedo_texture = ExtResource( 1 )
 
 [sub_resource type="SpatialMaterial" id=2]
 
 [sub_resource type="SpatialMaterial" id=3]
-albedo_texture = ExtResource( 2 )
+albedo_texture = ExtResource( 1 )
+
+[sub_resource type="BoxShape" id=4]
+extents = Vector3( 100, 20, 100 )
+
+[sub_resource type="Curve3D" id=5]
+_data = {
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 400, 0, 0, 0, 0, 0, 0, 0, 0, 400, 400, 0, 0, 0, 0, 0, 0, 0, 400, 0, 0, 0, 0, 0, 0, 0, 0, 400, 400, 0, 0, 0, 0, 0, 0, 0, 400, 0, 0, 0, 0, 0, 0, 0, 0, 400, 400, 0, 0, 0, 0, 0, 0, 0, 400, 0, 0, 0, 0, 0, 0, 0, 0, 400, 400, 0, 0, 0, 0, 0, 0, 0, 400, 0, 0, 0, 0, 0, 0, 0, 0, 400, 400, 0, 0, 0, 0, 0, 0, 0, 400, 0, 0, 0, 0, 0, 0, 0, 0, 400, 400, 0, 0, 0, 0, 0, 0, 0, 400, 0, 0, 0, 0, 0, 0, 0, 0, 400, 400 ),
+"tilts": PoolRealArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 )
+}
+
+[sub_resource type="BoxShape" id=6]
+margin = 1.0
+extents = Vector3( 15, 15, 2.5 )
 
 [node name="Spatial" type="Spatial"]
 
-[node name="Player" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 28, 0 )
-
 [node name="Geometry" type="Spatial" parent="."]
+transform = Transform( -1, 0, -8.74228e-008, 0, 1, 0, 8.74228e-008, 0, -1, 0, 0, 0 )
 
 [node name="Room" type="CSGBox" parent="Geometry"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -500, 500, 0 )
-layers = 2
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 500, 0 )
 use_collision = true
 invert_faces = true
 width = 2000.0
 height = 1000.0
-depth = 1000.0
+depth = 2000.0
 material = SubResource( 1 )
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="Ramp" type="Spatial" parent="Geometry"]
+editor/display_folded = true
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 4, 78.601, 0, -800 )
 
 [node name="CSGBox2" type="CSGBox" parent="Geometry/Ramp"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -200, 25, -225 )
-layers = 2
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -125, 25, 0 )
 use_collision = true
-width = 250.0
+width = 500.0
 height = 50.0
 depth = 100.0
 
 [node name="CSGPolygon" type="CSGPolygon" parent="Geometry/Ramp"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -75, 0, -175 )
-layers = 2
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 125, 0, 50 )
 use_collision = true
 polygon = PoolVector2Array( 0, 0, 0, 50, 150, 0 )
 depth = 100.0
 material = SubResource( 2 )
 
-[node name="QuarterPipe" type="CSGBox" parent="Geometry"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 400, 100, 0 )
-layers = 2
+[node name="CSGPolygon2" type="CSGPolygon" parent="Geometry/Ramp"]
+transform = Transform( -1, 0, -8.74228e-008, 0, 1, 0, 8.74228e-008, 0, -1, -375, 0, -50 )
+use_collision = true
+polygon = PoolVector2Array( 0, 0, 0, 50, 150, 0 )
+depth = 100.0
+material = SubResource( 2 )
+
+[node name="VertPipes" type="Spatial" parent="Geometry"]
+editor/display_folded = true
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1000, 0, 0 )
+
+[node name="QuarterPipe" type="CSGBox" parent="Geometry/VertPipes"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 100, -500 )
 use_collision = true
 width = 200.0
 height = 200.0
 depth = 1000.0
 material = SubResource( 3 )
 
-[node name="CSGCylinder" type="CSGCylinder" parent="Geometry/QuarterPipe"]
+[node name="CSGCylinder" type="CSGCylinder" parent="Geometry/VertPipes/QuarterPipe"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-008, -1, 0, 1, -4.37114e-008, -100, 100, 0 )
 layers = 2
 operation = 2
 radius = 200.0
-height = 1000.0
+height = 1100.0
 sides = 64
 smooth_faces = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="QuarterPipe2" type="CSGBox" parent="Geometry/VertPipes"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 50, 500 )
+use_collision = true
+width = 100.0
+height = 100.0
+depth = 1000.0
+material = SubResource( 3 )
+
+[node name="CSGCylinder" type="CSGCylinder" parent="Geometry/VertPipes/QuarterPipe2"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-008, -1, 0, 1, -4.37114e-008, -50, 50, 0 )
+layers = 2
+operation = 2
+radius = 100.0
+height = 1100.0
+sides = 64
+smooth_faces = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CSGBox" type="CSGBox" parent="Geometry/VertPipes"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 400, 0 )
+use_collision = true
+width = 200.0
+height = 50.0
+depth = 500.0
 
 [node name="CrouchTest" type="Spatial" parent="Geometry"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 289.261 )
+editor/display_folded = true
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 216.397, 0, 727 )
 
 [node name="CSGBox" type="CSGBox" parent="Geometry/CrouchTest"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 0 )
-layers = 2
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 19, 0 )
 use_collision = true
-width = 65.0
-height = 65.0
+width = 60.0
+height = 60.0
 depth = 256.0
 
-[node name="CSGBox2" type="CSGBox" parent="Geometry/CrouchTest/CSGBox"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -160.412, 0, 0 )
-layers = 2
-use_collision = true
-width = 256.0
-height = 65.0
-depth = 65.0
-
-[node name="CSGBox3" type="CSGBox" parent="Geometry/CrouchTest/CSGBox"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15, 0 )
+[node name="CSGBox4" type="CSGBox" parent="Geometry/CrouchTest/CSGBox"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0 )
 layers = 2
 operation = 2
-width = 34.0
-height = 68.0
+width = 32.0
+height = 39.0
 depth = 260.0
 
-[node name="CSGBox" type="CSGBox" parent="Geometry/CrouchTest/CSGBox/CSGBox3"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -160.412, 0, 0 )
-layers = 2
-width = 300.0
-height = 68.0
-depth = 34.0
-
-[node name="CSGBox3" type="CSGBox" parent="Geometry/CrouchTest"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -128, 80, 0 )
-layers = 2
+[node name="CSGBox2" type="CSGBox" parent="Geometry/CrouchTest"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -215, 18, 0 )
 use_collision = true
-width = 321.0
-height = 65.0
-depth = 65.0
+width = 140.0
+height = 56.0
+depth = 256.0
 
-[node name="CSGBox" type="CSGBox" parent="Geometry/CrouchTest/CSGBox3"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9, 0 )
+[node name="CSGBox4" type="CSGBox" parent="Geometry/CrouchTest/CSGBox2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0 )
 layers = 2
 operation = 2
-width = 350.0
-height = 48.0
-depth = 34.0
+width = 120.0
+height = 36.0
+depth = 260.0
 
-[node name="MarginContainer" parent="." instance=ExtResource( 3 )]
+[node name="Spatial" type="Spatial" parent="Geometry"]
+transform = Transform( -4.37114e-008, 0, 1, 0, 1, 0, -1, 0, -4.37114e-008, -700, 0, 950 )
+
+[node name="FloorHeightTest" type="Spatial" parent="Geometry/Spatial"]
+transform = Transform( -4.37114e-008, 0, 2, 0, 1, 0, -1, 0, -8.74228e-008, 0, 0, -75 )
+script = ExtResource( 2 )
+
+[node name="CeilingHeightTest" type="Spatial" parent="Geometry/Spatial"]
+transform = Transform( -4.37114e-008, 0, 2, -8.74228e-008, -1, -7.64274e-015, 1, -8.74228e-008, 8.74228e-008, 0, 91.2397, 375 )
+script = ExtResource( 2 )
+
+[node name="MovingPlatform" type="Spatial" parent="Geometry"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -850, 0, -900 )
+
+[node name="ElevatorBody" type="StaticBody" parent="Geometry/MovingPlatform"]
+collision_mask = 6
+script = ExtResource( 3 )
+path_follow = NodePath("../ElevatorSpline/PathFollow")
+
+[node name="CollisionShape" type="CollisionShape" parent="Geometry/MovingPlatform/ElevatorBody"]
+shape = SubResource( 4 )
+
+[node name="CSGBox" type="CSGBox" parent="Geometry/MovingPlatform/ElevatorBody"]
+width = 200.0
+height = 40.0
+depth = 200.0
+
+[node name="ElevatorSpline" parent="Geometry/MovingPlatform" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+curve = SubResource( 5 )
+points = [ Vector3( 0, 400, 0 ), Vector3( 0, 400, 400 ), Vector3( 0, 400, 0 ), Vector3( 0, 400, 400 ), Vector3( 0, 400, 0 ), Vector3( 0, 400, 400 ), Vector3( 0, 400, 0 ), Vector3( 0, 400, 400 ), Vector3( 0, 400, 0 ), Vector3( 0, 400, 400 ), Vector3( 0, 400, 0 ), Vector3( 0, 400, 400 ), Vector3( 0, 400, 0 ), Vector3( 0, 400, 400 ) ]
+point_scale = 100.0
+
+[node name="PathFollow" type="PathFollow" parent="Geometry/MovingPlatform/ElevatorSpline"]
+transform = Transform( -1, 0, 8.74228e-008, 0, 1, 0, -8.74228e-008, 0, -1, 0, 0, 0 )
+rotation_mode = 0
+loop = false
+
+[node name="Position3D" type="Position3D" parent="Geometry/MovingPlatform/ElevatorSpline"]
+transform = Transform( 100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 400, 0 )
+
+[node name="Position3D2" type="Position3D" parent="Geometry/MovingPlatform/ElevatorSpline"]
+transform = Transform( 100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 400, 400 )
+
+[node name="ButtonPillar" type="CSGBox" parent="Geometry/MovingPlatform"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -125, 50, 0 )
+use_collision = true
+width = 50.0
+height = 100.0
+depth = 50.0
+
+[node name="Button" type="CSGBox" parent="Geometry/MovingPlatform"]
+transform = Transform( -4.37114e-008, 0, -1, 0, 1, 0, 1, 0, -4.37114e-008, -97.5, 75, 0 )
+width = 30.0
+height = 30.0
+depth = 5.0
+
+[node name="Area" type="Area" parent="Geometry/MovingPlatform/Button"]
+monitorable = false
+collision_mask = 2
+script = ExtResource( 5 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Geometry/MovingPlatform/Button/Area"]
+shape = SubResource( 6 )
+
+[node name="ButtonPillar2" type="CSGBox" parent="Geometry/MovingPlatform"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -125, 425, 400 )
+use_collision = true
+width = 50.0
+height = 100.0
+depth = 50.0
+
+[node name="Button2" type="CSGBox" parent="Geometry/MovingPlatform"]
+transform = Transform( -4.37114e-008, 0, -1, 0, 1, 0, 1, 0, -4.37114e-008, -97.4999, 450, 400 )
+width = 30.0
+height = 30.0
+depth = 5.0
+
+[node name="Area" type="Area" parent="Geometry/MovingPlatform/Button2"]
+monitorable = false
+collision_mask = 2
+script = ExtResource( 5 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Geometry/MovingPlatform/Button2/Area"]
+shape = SubResource( 6 )
+
+[node name="Mezzanine" type="Spatial" parent="Geometry"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1000, 0, 1000 )
+
+[node name="CSGBox" type="CSGBox" parent="Geometry/Mezzanine"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 175, 400, -650 )
+use_collision = true
+width = 350.0
+height = 40.0
+depth = 1300.0
+
+[node name="CSGBox2" type="CSGBox" parent="Geometry/Mezzanine"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1000, 400, -165 )
+use_collision = true
+width = 1300.0
+height = 40.0
+depth = 350.0
+
+[node name="Player" parent="." instance=ExtResource( 6 )]
+editor/display_folded = true
+transform = Transform( -4.37114e-008, 0, -1, 0, 1, 0, 1, 0, -4.37114e-008, 0, 28, 0 )
+
+[node name="CameraOffset" parent="Player" index="0"]
+transform = Transform( 1, 0, 2.08616e-007, 0, 1, 0, -2.08616e-007, 0, 1, 0, 22, 0 )
+
+[node name="UncrouchRayCast" parent="Player" index="1"]
+transform = Transform( 1, 0, 2.08616e-007, 0, 1, 0, -2.08616e-007, 0, 1, 0, 0, 0 )
+
+[node name="KinematicBody" parent="Player" index="2"]
+editor/display_folded = true
+
+[node name="PlayerMesh" parent="Player/KinematicBody" index="3"]
+transform = Transform( 1.94707e-007, 0, -1, 0, 1, 0, 1, 0, 1.94707e-007, 0, 0, 0 )
+
+[node name="RemoteTransformPerspective" type="RemoteTransform" parent="Player/KinematicBody" index="5"]
+transform = Transform( 1, 0, 3.55271e-015, 0, 1, 0, -3.55271e-015, 0, 1, 0, 0, 0 )
+remote_path = NodePath("../../../MarginContainer/ViewportContainerPerspective/Viewport/CameraAnchorPerspective")
+update_rotation = false
+update_scale = false
+
+[node name="RemoteTransformX" type="RemoteTransform" parent="Player/KinematicBody" index="6"]
+remote_path = NodePath("../../../MarginContainer/ViewportContainerX/Viewport/CameraAnchorX")
+update_rotation = false
+update_scale = false
+
+[node name="RemoteTransformY" type="RemoteTransform" parent="Player/KinematicBody" index="7"]
+remote_path = NodePath("../../../MarginContainer/ViewportContainerY/Viewport/CameraAnchorY")
+update_rotation = false
+update_scale = false
+
+[node name="RemoteTransformZ" type="RemoteTransform" parent="Player/KinematicBody" index="8"]
+remote_path = NodePath("../../../MarginContainer/ViewportContainerZ/Viewport/CameraAnchorZ")
+update_rotation = false
+update_scale = false
+
+[node name="MarginContainer" parent="." instance=ExtResource( 7 )]
 player_node = NodePath("../Player")
 
-[node name="ViewportContainer" type="ViewportContainer" parent="MarginContainer"]
+[node name="ViewportContainerPerspective" type="ViewportContainer" parent="MarginContainer"]
+margin_left = 1240.0
+margin_top = 560.0
+margin_right = 1880.0
+margin_bottom = 1040.0
+rect_min_size = Vector2( 640, 480 )
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="Viewport" type="Viewport" parent="MarginContainer/ViewportContainerPerspective"]
+size = Vector2( 320, 240 )
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="CameraAnchorPerspective" type="Spatial" parent="MarginContainer/ViewportContainerPerspective/Viewport"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 28, 0 )
+
+[node name="CameraPerspective" type="Camera" parent="MarginContainer/ViewportContainerPerspective/Viewport/CameraAnchorPerspective"]
+transform = Transform( -4.37114e-008, -0.370884, 0.928679, 0, 0.928679, 0.370884, -1, 1.62118e-008, -4.05939e-008, 100, 70, 0 )
+current = true
+fov = 100.0
+size = 250.0
+near = 1.0
+far = 8192.0
+
+[node name="ViewportContainerX" type="ViewportContainer" parent="MarginContainer"]
 margin_left = 1560.0
 margin_top = 800.0
 margin_right = 1880.0
@@ -130,14 +333,75 @@ margin_bottom = 1040.0
 size_flags_horizontal = 8
 size_flags_vertical = 8
 
-[node name="Viewport" type="Viewport" parent="MarginContainer/ViewportContainer"]
+[node name="Viewport" type="Viewport" parent="MarginContainer/ViewportContainerX"]
 size = Vector2( 320, 240 )
 handle_input_locally = false
 render_target_update_mode = 3
 
-[node name="Camera" type="Camera" parent="MarginContainer/ViewportContainer/Viewport"]
-transform = Transform( -4.37114e-008, 0.458829, -0.888524, 0, 0.888524, 0.458829, 1, 2.00561e-008, -3.88386e-008, -343.509, 126.064, -7.19492 )
+[node name="CameraAnchorX" type="Spatial" parent="MarginContainer/ViewportContainerX/Viewport"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 28, 0 )
+
+[node name="CameraX" type="Camera" parent="MarginContainer/ViewportContainerX/Viewport/CameraAnchorX"]
+transform = Transform( -4.37114e-008, 0, 1, 0, 1, 0, -1, 0, -4.37114e-008, 2000, 0, 0 )
+projection = 1
 current = true
 fov = 100.0
+size = 250.0
 near = 1.0
 far = 8192.0
+
+[node name="ViewportContainerY" type="ViewportContainer" parent="MarginContainer"]
+margin_left = 1560.0
+margin_top = 560.0
+margin_right = 1880.0
+margin_bottom = 1040.0
+rect_min_size = Vector2( 0, 480 )
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="Viewport" type="Viewport" parent="MarginContainer/ViewportContainerY"]
+size = Vector2( 320, 240 )
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="CameraAnchorY" type="Spatial" parent="MarginContainer/ViewportContainerY/Viewport"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 28, 0 )
+
+[node name="CameraY" type="Camera" parent="MarginContainer/ViewportContainerY/Viewport/CameraAnchorY"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 2000, 0 )
+projection = 1
+current = true
+fov = 100.0
+size = 250.0
+near = 1.0
+far = 8192.0
+
+[node name="ViewportContainerZ" type="ViewportContainer" parent="MarginContainer"]
+margin_left = 1240.0
+margin_top = 800.0
+margin_right = 1880.0
+margin_bottom = 1040.0
+rect_min_size = Vector2( 640, 0 )
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="Viewport" type="Viewport" parent="MarginContainer/ViewportContainerZ"]
+size = Vector2( 320, 240 )
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="CameraAnchorZ" type="Spatial" parent="MarginContainer/ViewportContainerZ/Viewport"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 28, 0 )
+
+[node name="CameraZ" type="Camera" parent="MarginContainer/ViewportContainerZ/Viewport/CameraAnchorZ"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2000 )
+projection = 1
+current = true
+fov = 100.0
+size = 250.0
+near = 1.0
+far = 8192.0
+[connection signal="button_pressed" from="Geometry/MovingPlatform/Button/Area" to="Geometry/MovingPlatform/ElevatorBody" method="set_target_point" binds= [ 2 ]]
+[connection signal="button_pressed" from="Geometry/MovingPlatform/Button2/Area" to="Geometry/MovingPlatform/ElevatorBody" method="set_target_point" binds= [ 0 ]]
+
+[editable path="Player"]
