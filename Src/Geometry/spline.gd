@@ -40,8 +40,7 @@ func init_points():
 		add_child_point(point)
 
 func clear_path_points():
-	for idx in range(0, curve.get_point_count()):
-		curve.remove_point(0)
+	curve.clear_points()
 	
 func clear_child_points():
 	# clear out any leftover points
