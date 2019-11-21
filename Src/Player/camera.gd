@@ -39,8 +39,8 @@ func _physics_process(delta):
 			clamp_yaw = true
 			yaw_limit = 80
 		state.ACTION_STATE.AIR_DIVE:
-			target_pitch_min = -80
-			target_pitch_max = 80
+			target_pitch_min = -89.0
+			target_pitch_max = 89.0
 			clamp_yaw = true
 			yaw_limit = 80
 	
