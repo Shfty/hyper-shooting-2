@@ -92,7 +92,7 @@ func apply_velocity(delta, velocity):
 	body.global_transform.origin += body.get_floor_velocity()
 	
 	var skate = state.get_skating_state()
-	var ground_vector = Vector3.DOWN * ground_trace_distance if state.get_prop(PP.GROUNDED) && !skate else Vector3.ZERO
+	var ground_vector = Vector3.DOWN * ground_trace_distance if state.get_prop(PP.GROUNDED) && !skate else Vector3.DOWN
 	velocity = body.move_and_slide_with_snap(velocity, ground_vector, Vector3.UP, !skate, 4, deg2rad(max_slope_angle))
 	return velocity
 
