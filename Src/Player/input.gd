@@ -59,18 +59,17 @@ func _input(event: InputEvent):
 		
 		set_prop(PlayerInputs.CAMERA_ROTATION, rotation)
 
-func _physics_process(delta):
 	# Wish Vector
 	set_prop(PlayerInputs.WISH_VECTOR, get_wish_vector("move_left", "move_right", "move_forward", "move_back"))
 	
 	# Direct inputs
-	press_gate(PlayerInputs.JUMP, PlayerInputs.JUMP)
 	press_gate(PlayerInputs.SKATE, PlayerInputs.SKATE)
+	check_jump()
 	check_crouch()
 	
 	# Commands
-	set_prop(PlayerInputs.SLIDE, get_prop(PlayerInputs.CROUCH) && Input.is_action_just_pressed("move_forward"))
-	set_prop(PlayerInputs.DIVE, get_prop(PlayerInputs.WISH_VECTOR).length() > 0.5 && get_prop(PlayerInputs.CROUCH) && Input.is_action_just_pressed(PlayerInputs.JUMP))
+	set_prop(PlayerInputs.SLIDE, get_prop(PlayerInputs.CROUCH) && event.is_action_pressed("move_forward"))
+	set_prop(PlayerInputs.DIVE, get_prop(PlayerInputs.WISH_VECTOR).length() > 0.5 && get_prop(PlayerInputs.CROUCH) && event.is_action_pressed(PlayerInputs.JUMP))
 
 func get_wish_vector(left_action: String, right_action: String, forward_action: String, back_action: String):
 	return Vector3(
@@ -89,6 +88,14 @@ func press_gate(input_action, input_prop):
 	
 	if(Input.is_action_just_pressed(input_action)):
 		set_prop(input_prop, true)
+	
+func check_jump():
+	var uncrouch_raycast = nodes.get(PN.Spatial.UNCROUCH_RAYCAST)
+	if(!Input.is_action_pressed(PlayerInputs.JUMP)):
+		set_prop(PlayerInputs.JUMP, false)
+	
+	if(Input.is_action_just_pressed(PlayerInputs.JUMP) && !uncrouch_raycast.is_colliding()):
+		set_prop(PlayerInputs.JUMP, true)
 	
 func check_crouch():
 	var uncrouch_raycast = nodes.get(PN.Spatial.UNCROUCH_RAYCAST)
