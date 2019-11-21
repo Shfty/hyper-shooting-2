@@ -22,8 +22,8 @@ extents = Vector3( 100, 20, 100 )
 
 [sub_resource type="Curve3D" id=5]
 _data = {
-"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 400, 0, 0, 0, 0, 0, 0, 0, 0, 400, 400, 0, 0, 0, 0, 0, 0, 0, 400, 0, 0, 0, 0, 0, 0, 0, 0, 400, 400, 0, 0, 0, 0, 0, 0, 0, 400, 0, 0, 0, 0, 0, 0, 0, 0, 400, 400, 0, 0, 0, 0, 0, 0, 0, 400, 0, 0, 0, 0, 0, 0, 0, 0, 400, 400, 0, 0, 0, 0, 0, 0, 0, 400, 0, 0, 0, 0, 0, 0, 0, 0, 400, 400, 0, 0, 0, 0, 0, 0, 0, 400, 0, 0, 0, 0, 0, 0, 0, 0, 400, 400, 0, 0, 0, 0, 0, 0, 0, 400, 0, 0, 0, 0, 0, 0, 0, 0, 400, 400 ),
-"tilts": PoolRealArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 )
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 400, 0, 0, 0, 0, 0, 0, 0, 0, 400, 400 ),
+"tilts": PoolRealArray( 0, 0, 0 )
 }
 
 [sub_resource type="BoxShape" id=6]
@@ -187,7 +187,7 @@ depth = 200.0
 [node name="ElevatorSpline" parent="Geometry/MovingPlatform" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 curve = SubResource( 5 )
-points = [ Vector3( 0, 400, 0 ), Vector3( 0, 400, 400 ), Vector3( 0, 400, 0 ), Vector3( 0, 400, 400 ), Vector3( 0, 400, 0 ), Vector3( 0, 400, 400 ), Vector3( 0, 400, 0 ), Vector3( 0, 400, 400 ), Vector3( 0, 400, 0 ), Vector3( 0, 400, 400 ), Vector3( 0, 400, 0 ), Vector3( 0, 400, 400 ), Vector3( 0, 400, 0 ), Vector3( 0, 400, 400 ) ]
+points = [ Vector3( 0, 400, 0 ), Vector3( 0, 400, 400 ) ]
 point_scale = 100.0
 
 [node name="PathFollow" type="PathFollow" parent="Geometry/MovingPlatform/ElevatorSpline"]
