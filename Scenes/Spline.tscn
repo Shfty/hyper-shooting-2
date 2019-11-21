@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Src/Geometry/spline.gd" type="Script" id=1]
+
+[sub_resource type="Curve3D" id=1]
+_data = {
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 0, 0, 0 ),
+"tilts": PoolRealArray( 0 )
+}
+
+[node name="Path" type="Path"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11.715, 0, 8.44572 )
+curve = SubResource( 1 )
+script = ExtResource( 1 )
