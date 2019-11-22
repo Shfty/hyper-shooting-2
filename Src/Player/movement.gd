@@ -37,13 +37,15 @@ export(float) var air_accelerate = 1.5
 
 export(float) var ground_trace_distance = 15.0
 
-# @TODO: Align wish vector to slopes
-# @TODO: Prone rotation
-# @TODO: Fix prone collision
-# @TODO: Trigger back prone if over-aiming backward during a jump
-# @TODO: Proper dodge roll interpolation
+# @TODO: Prone rotation (rotate toward velocity, align to ground)
+# @TODO: Fix prone collision (rotate to align to wall)
 # @TODO: Go to full crouch, rotate, then uncrouch on prone recovery
 # @TODO: Figure out solution to height difference between crouch / prone
+# @TODO: Refactor sliding/diving state flags into prone flag
+# @TODO: Apply overaim back prone while in air instead of on landing
+# @TODO: Fix spline curve updates in editor, currently overpopulating data
+# @TODO: Add reticle
+# @TODO: Fire at reticle instead of weapon forward
 
 # Functions
 func _ready():
