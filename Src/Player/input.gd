@@ -53,10 +53,6 @@ func _input(event: InputEvent):
 			if(clamp_pitch):
 				rotation.x = clamp(rotation.x, deg2rad(pitch_min), deg2rad(pitch_max))
 		
-		# Wrap rotation
-		if(abs(rotation.x) > PI):
-			rotation.x -= sign(rotation.x) * TAU
-		
 		set_prop(PlayerInputs.CAMERA_ROTATION, rotation)
 
 	# Wish Vector
