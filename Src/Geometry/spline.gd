@@ -58,11 +58,12 @@ func add_child_point(point):
 	add_child(node)
 
 	# Add to edited scene
-	var tree = get_tree()
-	if(tree != null):
-		var edited_scene_root = tree.get_edited_scene_root()
-		if(edited_scene_root != null):
-			node.set_owner(edited_scene_root)
+	if(is_inside_tree()):
+		var tree = get_tree()
+		if(tree != null):
+			var edited_scene_root = tree.get_edited_scene_root()
+			if(edited_scene_root != null):
+				node.set_owner(edited_scene_root)
 
 func init_curve_points():
 	for idx in range(0, curve.get_point_count()):

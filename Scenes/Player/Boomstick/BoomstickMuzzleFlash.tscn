@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://gun_flash.tres" type="Material" id=1]
+
+[node name="BoomstickMuzzleFlash" type="Spatial"]
+
+[node name="LeftMuzzleFlash" type="CSGSphere" parent="."]
+transform = Transform( 2, 0, 0, 0, -0.68404, -1.87938, 0, 1.87938, -0.68404, -1.2, 0, -1.6 )
+radial_segments = 8
+rings = 8
+material = ExtResource( 1 )
+
+[node name="Spatial7" type="Spatial" parent="LeftMuzzleFlash"]
+transform = Transform( 1, 0, 0, 0, -1, -8.74228e-008, 0, 8.74228e-008, -1, 0, -1.4, 6.11959e-008 )
+
+[node name="CSGCylinder" type="CSGCylinder" parent="LeftMuzzleFlash/Spatial7"]
+radius = 0.92
+height = 2.046
+cone = true
+material = ExtResource( 1 )
+
+[node name="RightMuzzleFlash" type="CSGSphere" parent="."]
+transform = Transform( 2, 0, 0, 0, -0.68404, -1.87938, 0, 1.87938, -0.68404, 1.2, 0, -1.6 )
+radial_segments = 8
+rings = 8
+material = ExtResource( 1 )
+
+[node name="Spatial7" type="Spatial" parent="RightMuzzleFlash"]
+transform = Transform( 1, 0, 0, 0, -1, -8.74228e-008, 0, 8.74228e-008, -1, 0, -1.4, 6.11959e-008 )
+
+[node name="CSGCylinder" type="CSGCylinder" parent="RightMuzzleFlash/Spatial7"]
+radius = 0.92
+height = 2.046
+cone = true
+material = ExtResource( 1 )

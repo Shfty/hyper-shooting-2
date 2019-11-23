@@ -10,6 +10,7 @@ curve = SubResource( 1 )
 emission_shape = 2
 emission_box_extents = Vector3( 4, 4, 0 )
 initial_velocity = 10.0
+angular_velocity = 7.00006
 scale_curve = SubResource( 2 )
 
 [sub_resource type="SpatialMaterial" id=4]

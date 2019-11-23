@@ -1,3 +1,4 @@
+class_name Weapon
 extends Spatial
 
 export(NodePath) var muzzle_flash
@@ -23,10 +24,11 @@ var refire_timer = null
 export(float) var hitscan_range = 1000.0
 export(int) var hitscan_count = 16
 export(Vector3) var hitscan_deviation = Vector3(15, 20, 0)
-export(bool) var hitscan_pinpoint_first = true
 var hitscan_raycast = null
 
 export(PackedScene) var hitscan_particle_resource
+
+# @TODO: Split into component parts
 
 # Setters
 func set_muzzle_flash_visible(new_muzzle_flash_visible):
@@ -54,7 +56,7 @@ func _ready():
 	
 	refire_timer = Timer.new()
 	refire_timer.name = "RefireTimer"
-	refire_timer.connect("timeout", self, "set_can_fire", [true])
+	refire_timer.connect("timeout", self, "refire")
 	add_child(refire_timer)
 	
 	hitscan_raycast = RayCast.new()
@@ -62,10 +64,7 @@ func _ready():
 	hitscan_raycast.cast_to = Vector3(0, 0, -hitscan_range)
 	add_child(hitscan_raycast)
 
-func _physics_process(delta):
-	if(can_fire && Input.is_action_pressed("fire")):
-		fire()
-	
+func _process(delta):
 	kickback_anchor_instance.translation = lerp(kickback_anchor_instance.translation, Vector3(0, 0, kickback), delta * kickback_lerp_speed)
 	kickback = lerp(kickback, 0.0, delta * kickback_lerp_speed)
 
@@ -94,3 +93,8 @@ func fire():
 	
 	set_can_fire(false)
 	refire_timer.start(refire_duration)
+
+func refire():
+	set_can_fire(true)
+	if(Input.is_action_pressed("fire")):
+		fire()

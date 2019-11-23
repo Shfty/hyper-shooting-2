@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Src/Weapon.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Weapon/BulletImpact.tscn" type="PackedScene" id=2]
+
+[node name="Weapon" type="Spatial"]
+script = ExtResource( 1 )
+muzzle_flash = NodePath("MuzzleFlash")
+kickback_anchor = NodePath("MeshAnchor")
+hitscan_particle_resource = ExtResource( 2 )
+
+[node name="MeshAnchor" type="Spatial" parent="."]
+
+[node name="MuzzleFlashTransform" type="RemoteTransform" parent="MeshAnchor"]
+remote_path = NodePath("../../MuzzleFlash")
+
+[node name="MuzzleFlash" type="Spatial" parent="."]
