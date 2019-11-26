@@ -69,6 +69,7 @@ func init_curve_points():
 	for idx in range(0, curve.get_point_count()):
 		curve.remove_point(idx)
 
+# warning-ignore:unused_argument
 func _process(delta):
 	while(get_point_children().size() < points.size()):
 		points.remove(points.size() - 1)

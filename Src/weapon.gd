@@ -74,6 +74,7 @@ func _input(event):
 
 func fire():
 	hitscan_raycast.enabled = true
+# warning-ignore:unused_variable
 	for idx in range(0, hitscan_count):
 		hitscan_raycast.rotation = Vector3((randf() - 0.5) * 2 * deg2rad(hitscan_deviation.x), (randf() - 0.5) * 2 * deg2rad(hitscan_deviation.y), 0)
 		hitscan_raycast.force_raycast_update()
@@ -96,5 +97,5 @@ func fire():
 
 func refire():
 	set_can_fire(true)
-	if(Input.is_action_pressed("fire")):
+	if(automatic_refire && Input.is_action_pressed("fire")):
 		fire()

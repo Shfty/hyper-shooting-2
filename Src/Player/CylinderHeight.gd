@@ -1,42 +1,36 @@
 class_name CylinderHeight
 extends Node
-tool
 
-export (float) var height = 56 setget set_height, get_height
+export (NodePath) var cylinder
+onready var cylinder_inst: CollisionShape = get_node(cylinder) if !cylinder.is_empty() else null
 
-signal height_changed(height)
-signal height_changed_delta(delta_height)
+export (NodePath) var head_anchor
+onready var head_anchor_inst: Spatial = get_node(head_anchor) if !head_anchor.is_empty() else null
 
-func set_height(new_height):
-	if(height != new_height):
-		height = new_height
+export (NodePath) var feet_anchor
+onready var feet_anchor_inst: Spatial = get_node(feet_anchor) if !feet_anchor.is_empty() else null
+
+export(float) var head_inset = 6
+export(float) var feet_inset = 6
+
+func set_height(height):
+	if(cylinder_inst == null):
+		return
 	
-		var cylinder = get_parent().shape
-		var prev_height = cylinder.height
-		cylinder.height = max(height, 0)
-		
-		var delta_height = cylinder.height - prev_height
-		
-		emit_signal("height_changed", height)
-		emit_signal("height_changed_delta", delta_height)
+	# Change cylinder height
+	var prev_height = cylinder_inst.shape.height
+	cylinder_inst.shape.height = max(height, 0)
+	
+	# Delta movement to remain grounded
+	var delta_height = cylinder_inst.shape.height - prev_height
+	owner.global_transform.origin += Vector3(0, delta_height * 0.5, 0)
+	
+	# Reposition head and foot anchors
+	if(head_anchor_inst != null):
+		head_anchor_inst.translation.y = (cylinder_inst.shape.height * 0.5) - head_inset
+	
+	if(feet_anchor_inst != null):
+		feet_anchor_inst.translation.y = -(cylinder_inst.shape.height * 0.5) + feet_inset
 
 func get_height():
-	return height
-
-func should_run():
-	if(Engine.is_editor_hint()):
-		return false
-	
-	if(!is_parent_collision_shape()):
-		return false
-	
-	return true
-
-func is_parent_collision_shape():
-	return get_parent() is CollisionShape
-
-func _get_configuration_warning():
-	if(!is_parent_collision_shape()):
-		return "Parent must be a CollisionShape"
-	
-	return ""
+	return cylinder_inst.shape.height

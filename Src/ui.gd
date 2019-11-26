@@ -10,6 +10,7 @@ func _ready():
 	assert(!player_node.is_empty())
 	player_inst = get_node(player_node)
 
+# warning-ignore:unused_argument
 func _process(delta):
 	var state = player_inst.find_node("PlayerState")
 	var vel = state.get_velocity()
