@@ -1,11 +1,13 @@
 class_name UpdateMoveBobBehavior
 extends NestedFSMBehavior
 
-export (float) var bob_frequency = 0.005
+export(String) var player_state_key = "player_state"
+
+export (float) var bob_frequency = 0.13
 export (float) var lerp_rate = 8
 
 func physics_process(delta):
-	var player_state := get_context_inst() as PlayerState
+	var player_state := get_context(player_state_key) as PlayerState
 	
 	var bob = player_state.get_bob()
 
@@ -21,7 +23,3 @@ func physics_process(delta):
 			bob = lerp(bob, 1.0, delta * lerp_rate)
 
 	player_state.set_bob(fmod(bob, 1.0))
-
-func enter():
-	var player_state = get_context_inst() as PlayerState
-	player_state.set_bob(0.0)

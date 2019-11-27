@@ -8,6 +8,6 @@ func physics_process(delta):
 	if(pitch_spatial_inst == null):
 		return
 	
-	var player_state := get_context_inst() as PlayerState
+	var player_state := get_context("player_state") as PlayerState
 	var pitch = player_state.get_pitch()
 	pitch_spatial_inst.rotation.x = pitch

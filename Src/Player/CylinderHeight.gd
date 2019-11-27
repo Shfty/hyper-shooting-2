@@ -10,8 +10,8 @@ onready var head_anchor_inst: Spatial = get_node(head_anchor) if !head_anchor.is
 export (NodePath) var feet_anchor
 onready var feet_anchor_inst: Spatial = get_node(feet_anchor) if !feet_anchor.is_empty() else null
 
-export(float) var head_inset = 6
-export(float) var feet_inset = 6
+export(float) var head_inset = 0.23
+export(float) var feet_inset = 0
 
 func set_height(height):
 	if(cylinder_inst == null):
@@ -27,7 +27,7 @@ func set_height(height):
 	
 	# Reposition head and foot anchors
 	if(head_anchor_inst != null):
-		head_anchor_inst.translation.y = (cylinder_inst.shape.height * 0.5) - head_inset
+		head_anchor_inst.translation.y = cylinder_inst.shape.height - head_inset
 	
 	if(feet_anchor_inst != null):
 		feet_anchor_inst.translation.y = -(cylinder_inst.shape.height * 0.5) + feet_inset

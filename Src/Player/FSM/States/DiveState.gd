@@ -1,7 +1,7 @@
 extends PlayerFSMState
 
 func physics_process(delta):
-	var player_state = .get_context_inst() as PlayerState
+	var player_state = .get_context("player_state") as PlayerState
 	var pitch = player_state.get_pitch()
 	if(pitch > 0.0):
 		if(pitch > PI):

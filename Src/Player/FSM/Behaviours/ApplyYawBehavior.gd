@@ -8,6 +8,6 @@ func physics_process(delta):
 	if(yaw_spatial_inst == null):
 		return
 	
-	var player_state := get_context_inst() as PlayerState
+	var player_state := get_context("player_state") as PlayerState
 	var yaw = player_state.get_yaw()
 	yaw_spatial_inst.rotation.y = yaw

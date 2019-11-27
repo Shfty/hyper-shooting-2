@@ -1,33 +1,30 @@
 class_name DiveBehavior
 extends NestedFSMBehavior
 
-export(NodePath) var wish_vector
-onready var wish_vector_inst = get_node(wish_vector) if !wish_vector.is_empty() else null
+export(String) var player_state_key = "player_state"
+export(String) var wish_vector_key = "wish_vector"
+export(String) var jump_action_key = "jump_action"
 
-export(NodePath) var jump_action
-onready var jump_action_inst = get_node(jump_action) if !jump_action.is_empty() else null
-
-export(float) var jump_impulse = 270
-export(float) var dive_impulse = 400.0
+export(float) var jump_impulse = 10.295
+export(float) var dive_impulse = 15.25
 
 func dive_command():
-	return wish_vector_inst.get_wish_vector().length() > 0.5 && jump_action_inst.pressed
+	var wish_vector := get_context(wish_vector_key) as WishVector
+	var jump_action := get_context(jump_action_key) as InputAction
+	return wish_vector.get_wish_vector().length() > 0.5 && jump_action.pressed
 
 # warning-ignore:unused_argument
 func physics_process(delta):
-	if(wish_vector_inst == null):
-		return
-		
-	if(jump_action_inst == null):
-		return
+	var player_state := get_context(player_state_key) as PlayerState
+	var wish_vector := get_context(wish_vector_key) as WishVector
+	var jump_action := get_context(jump_action_key) as InputAction
 	
-	var player_state = get_context_inst() as PlayerState
-	var wish_vec = wish_vector_inst.get_wish_vector().rotated(Vector3.UP, player_state.get_yaw())
+	var wish_vec = wish_vector.get_wish_vector().rotated(Vector3.UP, player_state.get_yaw())
 	
 	if(dive_command()):
 		player_state.set_prone_direction(wish_vec)
 		player_state.set_prone(true)
-		jump_action_inst.set_down(false)
+		jump_action.set_down(false)
 		
 		if(!player_state.get_skating()):
 			var velocity = player_state.get_velocity()

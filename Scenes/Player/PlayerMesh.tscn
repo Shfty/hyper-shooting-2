@@ -3,64 +3,76 @@
 [node name="PlayerMesh" type="Spatial"]
 
 [node name="CSGSphere" type="CSGSphere" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 22, 0 )
+transform = Transform( 0.8, 0, 0, 0, 1, 0, 0, 0, 0.8, 0, 1.6292, 0 )
 layers = 2
-radius = 6.0
+radius = 0.15
 
 [node name="CSGCylinder" type="CSGCylinder" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.22156, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.47488, 0 )
 layers = 2
-radius = 2.0
-height = 18.0
+radius = 0.06
+height = 0.244
+
+[node name="CSGCylinder2" type="CSGCylinder" parent="."]
+transform = Transform( 2, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15119, 0 )
+layers = 2
+radius = 0.06
+height = 0.3
 
 [node name="Shoulders" type="CSGCylinder" parent="."]
-transform = Transform( -4.37114e-008, -1, 0, 1, -4.37114e-008, 0, 0, 0, 1, 0, 13, 0 )
+transform = Transform( -4.37114e-008, -1, 0, 1, -4.37114e-008, 0, 0, 0, 1, 3.75235e-010, 1.36642, 0 )
 layers = 2
-radius = 2.0
-height = 15.0
+radius = 0.076
+height = 0.572
 
 [node name="LeftUpperArm" type="CSGCylinder" parent="Shoulders"]
-transform = Transform( -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 0, 0, 1, -2.5, 5.5, 0 )
-radius = 2.0
-height = 8.0
-
-[node name="LeftForeArm" type="CSGCylinder" parent="Shoulders/LeftUpperArm"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-008, -1, 0, 1, -4.37114e-008, 0, -2, -2 )
-radius = 2.0
-height = 8.0
+transform = Transform( -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 0, 0, 1, -0.15, 0.24, 0 )
+radius = 0.06
+height = 0.305
 
 [node name="RightUpperArm" type="CSGCylinder" parent="Shoulders"]
-transform = Transform( -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 0, 0, 1, -2, -5.5, 0 )
-radius = 2.0
-height = 8.0
+transform = Transform( -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 0, 0, 1, -0.15, -0.24, 0 )
+radius = 0.076
+height = 0.305
 
-[node name="RightForeArm" type="CSGCylinder" parent="Shoulders/RightUpperArm"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-008, -1, 0, 1, -4.37114e-008, 0, -2.5, -2 )
-radius = 2.0
-height = 8.0
+[node name="RightForeArm" type="CSGCylinder" parent="Shoulders"]
+transform = Transform( -4.37114e-008, -4.37114e-008, -1, -1, 1.91069e-015, 4.37114e-008, 0, 1, -4.37114e-008, -0.34, -0.24, -0.10581 )
+radius = 0.06
+height = 0.305
+
+[node name="LeftForeArm" type="CSGCylinder" parent="Shoulders"]
+transform = Transform( -4.37114e-008, -4.37114e-008, -1, -1, 1.91069e-015, 4.37114e-008, 0, 1, -4.37114e-008, -0.34, 0.24, -0.10581 )
+radius = 0.06
+height = 0.305
 
 [node name="Hips" type="CSGCylinder" parent="."]
-transform = Transform( -4.37114e-008, -1, 0, 1, -4.37114e-008, 0, 0, 0, 1, 0, -3.5, 0 )
+transform = Transform( -4.37114e-008, -1, 0, 1, -4.37114e-008, 0, 0, 0, 1, -2.34521e-009, 0.953652, 0 )
 layers = 2
-radius = 2.0
-height = 15.0
+radius = 0.1
+height = 0.36
 
 [node name="LeftThigh" type="CSGCylinder" parent="Hips"]
-transform = Transform( -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 0, 0, 1, -5.5, 5.5, 0 )
-radius = 2.0
-height = 15.0
+transform = Transform( -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 0, 0, 1, -0.21, 0.12, 0 )
+radius = 0.085
+height = 0.572
 
 [node name="LeftThigh2" type="CSGCylinder" parent="Hips/LeftThigh"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -11.5, 0 )
-radius = 2.0
-height = 15.0
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.46, 0 )
+radius = 0.08
+height = 0.572
 
 [node name="RightThigh" type="CSGCylinder" parent="Hips"]
-transform = Transform( -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 0, 0, 1, -5.5, -5.50286, 0 )
-radius = 2.0
-height = 15.0
+transform = Transform( -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 0, 0, 1, -0.21, -0.12, 0 )
+radius = 0.085
+height = 0.572
 
 [node name="LeftThigh3" type="CSGCylinder" parent="Hips/RightThigh"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -11.5, 0 )
-radius = 2.0
-height = 15.0
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.46, 0 )
+radius = 0.076
+height = 0.572
+
+[node name="Position3D" type="Position3D" parent="."]
+transform = Transform( 0.85, 0, 0, 0, 1, 0, 0, 0, 0.85, 1, 0, 0 )
+
+[node name="Position3D2" type="Position3D" parent="."]
+transform = Transform( 0.85, 0, 0, 0, 1, 0, 0, 0, 0.85, 1, 1.8, 0 )

@@ -3,19 +3,17 @@ extends Node
 
 const FSM_BASE = true
 
-# warning-ignore:unused_class_variable
-export(NodePath) var context
-var context_inst = null setget set_context_inst, get_context_inst
+var context_inst: Dictionary = {} setget set_context_inst
 
 # warning-ignore:unused_class_variable
 var parent_fsm = null
 
 func set_context_inst(new_context_inst):
-	if(context_inst == null):
+	if(context_inst != new_context_inst):
 		context_inst = new_context_inst
 
-func get_context_inst():
-	return context_inst
+func get_context(key):
+	return context_inst[key]
 
 # Events
 func is_active():

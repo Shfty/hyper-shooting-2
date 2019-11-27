@@ -1,12 +1,26 @@
 class_name NestedFSMRoot
 extends NestedFSMState
 
+export(Dictionary) var context
+
 # Overrides
 func _ready():
-	if(!context.is_empty() && parent_fsm == null):
-		set_parent_fsm_recursive(self, null)
-		call_recursive_one_param(self, "set_context_inst", get_node(context))
-		call_recursive(self, "start")
+	# Initialize FSM parents
+	set_parent_fsm_recursive(self, null)
+	
+	# Prepare context
+	var new_context_inst = {}
+	for key in context:
+		var val = context[key]
+		if(val is NodePath):
+			new_context_inst[key] = get_node(val)
+		else:
+			new_context_inst[key] = val
+	
+	call_recursive_one_param(self, "set_context_inst", new_context_inst)
+	
+	# Start
+	call_recursive(self, "start")
 
 func _process(delta):
 	call_recursive_one_param_active(self, "process", delta)

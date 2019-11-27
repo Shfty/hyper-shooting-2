@@ -29,16 +29,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Src/Player/FSM/Behaviours/ApplyYawBehavior.gd"
 }, {
-"base": "Node",
-"class": "CameraPitch",
-"language": "GDScript",
-"path": "res://Src/Player/CameraPitch.gd"
-}, {
-"base": "Node",
-"class": "CameraYaw",
-"language": "GDScript",
-"path": "res://Src/Player/CameraYaw.gd"
-}, {
 "base": "NestedFSMBehavior",
 "class": "CheckLandingBehavior",
 "language": "GDScript",
@@ -84,7 +74,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Src/FP.gd"
 }, {
-"base": "Reference",
+"base": "NestedFSMBehavior",
 "class": "FloorMovementBehavior",
 "language": "GDScript",
 "path": "res://Src/Player/FSM/Behaviours/FloorMovement.gd"
@@ -120,9 +110,9 @@ _global_script_classes=[ {
 "path": "res://Src/Player/FSM/Behaviours/LeanRoll.gd"
 }, {
 "base": "NestedFSMBehavior",
-"class": "LerpToZeroBehavior",
+"class": "LerpSpatialBehavior",
 "language": "GDScript",
-"path": "res://Src/Player/FSM/Behaviours/LerpToZero.gd"
+"path": "res://Src/Player/FSM/Behaviours/LerpSpatial.gd"
 }, {
 "base": "Node",
 "class": "MouseCapture",
@@ -133,11 +123,6 @@ _global_script_classes=[ {
 "class": "MouseMove",
 "language": "GDScript",
 "path": "res://Src/Input/MouseMove.gd"
-}, {
-"base": "Node",
-"class": "MoveBob",
-"language": "GDScript",
-"path": "res://Src/Player/MoveBob.gd"
 }, {
 "base": "NestedFSMBehavior",
 "class": "MoveSlideSnapBehavior",
@@ -214,6 +199,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Src/RayCastSignals.gd"
 }, {
+"base": "Node",
+"class": "RemoteNodePath",
+"language": "GDScript",
+"path": "res://Src/RemoteNodePath.gd"
+}, {
+"base": "NestedFSMBehavior",
+"class": "ResetMoveBobBehavior",
+"language": "GDScript",
+"path": "res://Src/Player/FSM/Behaviours/ResetMoveBob.gd"
+}, {
 "base": "NestedFSMBehavior",
 "class": "SlideBehavior",
 "language": "GDScript",
@@ -249,8 +244,6 @@ _global_script_class_icons={
 "ApplyMoveBob": "",
 "ApplyPitchBehavior": "",
 "ApplyYawBehavior": "",
-"CameraPitch": "",
-"CameraYaw": "",
 "CheckLandingBehavior": "",
 "ClampPitchBehavior": "",
 "ClampYawBehavior": "",
@@ -267,10 +260,9 @@ _global_script_class_icons={
 "InputAction": "",
 "JumpBehavior": "",
 "LeanRollBehavior": "",
-"LerpToZeroBehavior": "",
+"LerpSpatialBehavior": "",
 "MouseCapture": "",
 "MouseMove": "",
-"MoveBob": "",
 "MoveSlideSnapBehavior": "",
 "NestedFSMBase": "",
 "NestedFSMBehavior": "",
@@ -286,6 +278,8 @@ _global_script_class_icons={
 "ProceduralTexture": "",
 "ProceduralTextureSequence": "",
 "RayCastSignals": "",
+"RemoteNodePath": "",
+"ResetMoveBobBehavior": "",
 "SlideBehavior": "",
 "UpdateMoveBobBehavior": "",
 "Util": "",
@@ -359,8 +353,10 @@ fire={
 [physics]
 
 common/physics_fps=165
+3d/active_soft_world=false
 
 [rendering]
 
-quality/shading/force_vertex_shading=true
+quality/filters/anisotropic_filter_level=16
+quality/shadows/filter_mode=2
 environment/default_environment="res://default_env.tres"

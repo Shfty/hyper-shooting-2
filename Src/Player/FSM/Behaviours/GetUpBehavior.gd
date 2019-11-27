@@ -1,34 +1,29 @@
 class_name GetUpBehavior
 extends NestedFSMBehavior
 
-export(NodePath) var jump_action
-onready var jump_action_inst = get_node(jump_action) if !jump_action.is_empty() else null
+export(String) var player_state_key = "player_state"
+export(String) var jump_action_key = "jump_action"
+export(String) var crouch_action_key = "crouch_action"
 
-export(NodePath) var crouch_action
-onready var crouch_action_inst = get_node(crouch_action) if !crouch_action.is_empty() else null
-
-export(float) var front_prone_stop_threshold = 50.0
-export(float) var back_prone_stop_threshold = 150.0
+export(float) var front_prone_stop_threshold = 1.9
+export(float) var back_prone_stop_threshold = 5.72
 
 # warning-ignore:unused_argument
 func physics_process(delta):
-	if(jump_action_inst == null):
-		return
+	var player_state = get_context(player_state_key) as PlayerState
+	var jump_action := get_context(jump_action_key) as InputAction
+	var crouch_action := get_context(crouch_action_key) as InputAction
 		
-	if(crouch_action_inst == null):
-		return
-		
-	var player_state = get_context_inst() as PlayerState
 	var velocity = player_state.get_velocity()
 	var skating = player_state.get_skating()
 	var get_up_threshold = front_prone_stop_threshold if player_state.is_front_prone() else back_prone_stop_threshold
 		
-	if(crouch_action_inst.down):
-		if(jump_action_inst.down):
+	if(crouch_action.down):
+		if(jump_action.down):
 			if(skating || velocity.length() < get_up_threshold):
 				player_state.set_prone(false)
-				jump_action_inst.set_down(false)
+				jump_action.set_down(false)
 	else:
 		if(!skating && velocity.length() < get_up_threshold):
 			player_state.set_prone(false)
-			jump_action_inst.set_down(false)
+			jump_action.set_down(false)

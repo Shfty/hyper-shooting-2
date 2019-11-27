@@ -2,7 +2,7 @@ class_name GroundedState
 extends NestedFSMState
 
 func get_default_state():
-	var player_state = .get_context_inst() as PlayerState
+	var player_state = get_context("player_state") as PlayerState
 	if(player_state.get_prone()):
 		return "Prone"
 	elif(player_state.get_crouching()):
@@ -11,7 +11,7 @@ func get_default_state():
 		return "Standing"
 
 func physics_process(delta):
-	var player_state = .get_context_inst() as PlayerState
+	var player_state = get_context("player_state") as PlayerState
 	if(!player_state.get_grounded() || player_state.get_skating()):
 		.exit("Airborne")
 	.physics_process(delta)

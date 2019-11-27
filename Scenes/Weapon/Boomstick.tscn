@@ -7,6 +7,8 @@
 [node name="Boomstick" instance=ExtResource( 1 )]
 muzzle_flash = NodePath("../Boomstick/MuzzleFlash")
 kickback_anchor = NodePath("../Boomstick/MeshAnchor")
+kickback_impulse = 0.381
+hitscan_range = 38.125
 
 [node name="Mesh" parent="MeshAnchor" index="1" instance=ExtResource( 2 )]
 
