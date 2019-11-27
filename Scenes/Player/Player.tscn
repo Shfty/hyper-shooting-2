@@ -430,8 +430,8 @@ update_scale = false
 enabled = true
 cast_to = Vector3( 0, 1.601, 0 )
 script = ExtResource( 47 )
-[connection signal="colliding_changed" from="Uncrouch/Node/UncrouchRayCast" to="Input/JumpAction" method="set_ignore_input"]
 [connection signal="colliding_changed" from="Uncrouch/Node/UncrouchRayCast" to="Input/CrouchAction" method="set_ignore_input"]
+[connection signal="colliding_changed" from="Uncrouch/Node/UncrouchRayCast" to="Input/JumpAction" method="set_ignore_input"]
 
 [editable path="FSM"]
 

@@ -79,6 +79,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Src/Player/FSM/Behaviours/FloorMovement.gd"
 }, {
+"base": "KinematicBody",
+"class": "FollowNode",
+"language": "GDScript",
+"path": "res://Src/FollowNode.gd"
+}, {
 "base": "NestedFSMBehavior",
 "class": "FrictionBehavior",
 "language": "GDScript",
@@ -254,6 +259,7 @@ _global_script_class_icons={
 "DiveBehavior": "",
 "FP": "",
 "FloorMovementBehavior": "",
+"FollowNode": "",
 "FrictionBehavior": "",
 "GetUpBehavior": "",
 "GroundedState": "",

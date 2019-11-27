@@ -44,7 +44,7 @@ func _physics_process(delta):
 			var prev_translation = path_follow_inst.translation
 			path_follow_inst.offset += sign(delta_dist) * min(move_speed * delta, delta_length)
 			translation = path_follow_inst.translation
-			constant_linear_velocity = prev_translation - translation
+			constant_linear_velocity = translation - prev_translation
 		else:
 			constant_linear_velocity = Vector3.ZERO
 	
