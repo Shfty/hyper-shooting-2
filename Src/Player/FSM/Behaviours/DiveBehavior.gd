@@ -13,7 +13,6 @@ func dive_command():
 	var jump_action := get_context(jump_action_key) as InputAction
 	return wish_vector.get_wish_vector().length() > 0.5 && jump_action.pressed
 
-# warning-ignore:unused_argument
 func physics_process(delta):
 	var player_state := get_context(player_state_key) as PlayerState
 	var wish_vector := get_context(wish_vector_key) as WishVector
@@ -23,7 +22,7 @@ func physics_process(delta):
 	
 	if(dive_command()):
 		player_state.set_prone_direction(wish_vec)
-		player_state.set_prone(true)
+		root_fsm.change_to("Airborne/Dive")
 		jump_action.set_down(false)
 		
 		if(!player_state.get_skating()):
@@ -33,5 +32,3 @@ func physics_process(delta):
 			
 			player_state.set_grounded(false)
 			player_state.set_velocity(velocity)
-			parent_fsm.parent_fsm.exit("Airborne")
-

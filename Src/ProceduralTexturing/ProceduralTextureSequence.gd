@@ -74,7 +74,7 @@ func run():
 	var tree = get_tree()
 	if(tree == null):
 		return
-	
+
 	var input_tex: Texture = null
 	match input_type:
 		InputType.COLOR:
@@ -82,18 +82,18 @@ func run():
 			var input_image = Image.new()
 			input_image.create(resolution.x, resolution.y, false, Image.FORMAT_RGBA8)
 			input_image.fill(input_fill_color)
-			
+
 			input_tex = ImageTexture.new()
 			input_tex.create_from_image(input_image)
 		InputType.TEXTURE:
 			input_tex = input_texture
 			pass
-	
+
 	# Remove existing children
 	for child in get_children():
 		remove_child(child)
 		child.queue_free()
-		
+
 	var prev_child = null
 	for step in steps:
 		# Create wrapper control
@@ -104,17 +104,17 @@ func run():
 		proc_texture.set_shader_material(step)
 		proc_texture.set_resolution(resolution)
 		Util.add_child_editor(self, proc_texture)
-		
+
 		if(prev_child == null):
 			proc_texture.set_input_texture(input_tex)
 		else:
 			proc_texture.set_input_texture(prev_child.find_node("Viewport").get_texture())
-		
+
 		if(collapse && proc_texture != get_children().back()):
 			proc_texture.rect_size.x = 0
 			proc_texture.rect_min_size.x = 0
 		else:
 			proc_texture.rect_size.x = resolution.x
 			proc_texture.rect_min_size.x = resolution.x
-		
+
 		prev_child = proc_texture

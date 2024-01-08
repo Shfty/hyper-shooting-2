@@ -11,7 +11,6 @@ export(Curve) var bob_curve_z
 export(Vector3) var bob_magnitude = Vector3(0.1, 0.1, 0.1)
 export(Vector3) var curve_offset = Vector3.ZERO
 
-# warning-ignore:unused_argument
 func physics_process(delta):
 	var player_state := get_context(player_state_key) as PlayerState
 	var spatial := get_context(spatial_key) as Spatial

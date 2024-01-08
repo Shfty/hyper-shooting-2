@@ -9,7 +9,6 @@ export (float) var transition_speed = 6.0
 
 var target = Vector3.ZERO
 
-# warning-ignore:unused_argument
 func physics_process(delta):
 	var player_state = get_context(player_state_key) as PlayerState
 	var weapon_momentum_spatial := get_context(weapon_momentum_spatial_key) as Spatial

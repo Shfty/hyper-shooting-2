@@ -2,7 +2,6 @@
 
 [ext_resource path="res://Src/Geometry/Spline.gd" type="Script" id=1]
 
-
 [sub_resource type="Curve3D" id=1]
 _data = {
 "points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 0, 0, 0 ),

@@ -1,0 +1,14 @@
+[remap]
+
+importer="qodot.map"
+type="QuakeMap"
+path="res://.import/trenchbroom-test.map-157402a74afe9b0838271b6f1179324b.tres"
+
+[deps]
+
+source_file="res://Maps/trenchbroom-test.map"
+dest_files=[ "res://.import/trenchbroom-test.map-157402a74afe9b0838271b6f1179324b.tres" ]
+
+[params]
+
+map_format="standard"

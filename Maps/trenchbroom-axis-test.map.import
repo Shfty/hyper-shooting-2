@@ -1,0 +1,13 @@
+[remap]
+
+importer="qodot.map"
+type="QuakeMap"
+path="res://.import/trenchbroom-axis-test.map-290e3acc37cf1a2b6a5998a3f5a3a818.tres"
+
+[deps]
+
+source_file="res://Maps/trenchbroom-axis-test.map"
+dest_files=[ "res://.import/trenchbroom-axis-test.map-290e3acc37cf1a2b6a5998a3f5a3a818.tres" ]
+
+[params]
+

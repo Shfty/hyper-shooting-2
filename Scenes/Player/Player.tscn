@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://Src/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Src/Player/PlayerState.gd" type="Script" id=2]
@@ -10,43 +10,44 @@
 [ext_resource path="res://Src/Player/CylinderHeight.gd" type="Script" id=8]
 [ext_resource path="res://Src/Player/DirectionalRotation.gd" type="Script" id=9]
 [ext_resource path="res://Scenes/FSM.tscn" type="PackedScene" id=10]
-[ext_resource path="res://Src/Player/FSM/NestedFSMPlayer.gd" type="Script" id=11]
+[ext_resource path="res://Src/NestedFSM/NestedFSMRoot.gd" type="Script" id=11]
 [ext_resource path="res://Src/Player/FSM/Behaviours/CheckGrounded.gd" type="Script" id=12]
 [ext_resource path="res://Src/Player/FSM/States/GroundedState.gd" type="Script" id=13]
 [ext_resource path="res://Src/Player/FSM/Behaviours/FrictionBehavior.gd" type="Script" id=14]
 [ext_resource path="res://Src/Player/FSM/Behaviours/LerpSpatial.gd" type="Script" id=15]
 [ext_resource path="res://Src/Player/FSM/Behaviours/ResetMoveBob.gd" type="Script" id=16]
 [ext_resource path="res://Src/Player/FSM/States/StandingState.gd" type="Script" id=17]
-[ext_resource path="res://Src/Player/FSM/Behaviours/CylinderHeightBehavior.gd" type="Script" id=18]
-[ext_resource path="res://Src/Player/FSM/Behaviours/CylinderRotationBehavior.gd" type="Script" id=19]
-[ext_resource path="res://Src/Player/FSM/Behaviours/AccelerationBehavior.gd" type="Script" id=20]
-[ext_resource path="res://Src/Player/FSM/Behaviours/JumpBehavior.gd" type="Script" id=21]
-[ext_resource path="res://Src/Player/FSM/Behaviours/UpdateMoveBob.gd" type="Script" id=22]
-[ext_resource path="res://Src/Player/FSM/Behaviours/ApplyMoveBob.gd" type="Script" id=23]
-[ext_resource path="res://Curves/ViewBobCurve.tres" type="Curve" id=24]
-[ext_resource path="res://Curves/WeaponBobCurve.tres" type="Curve" id=25]
-[ext_resource path="res://Src/Player/FSM/States/CrouchingState.gd" type="Script" id=26]
-[ext_resource path="res://Src/Player/FSM/Behaviours/DiveBehavior.gd" type="Script" id=27]
-[ext_resource path="res://Src/Player/FSM/Behaviours/SlideBehavior.gd" type="Script" id=28]
-[ext_resource path="res://Src/Player/FSM/States/ProneState.gd" type="Script" id=29]
-[ext_resource path="res://Src/Player/FSM/Behaviours/GetUpBehavior.gd" type="Script" id=30]
-[ext_resource path="res://Src/Player/FSM/Behaviours/ClampYaw.gd" type="Script" id=31]
-[ext_resource path="res://Src/Player/FSM/Behaviours/FloorMovement.gd" type="Script" id=32]
-[ext_resource path="res://Src/Player/FSM/Behaviours/MoveSlideSnap.gd" type="Script" id=33]
-[ext_resource path="res://Src/Player/FSM/Behaviours/ClampPitch.gd" type="Script" id=34]
-[ext_resource path="res://Src/Player/FSM/States/AirborneState.gd" type="Script" id=35]
-[ext_resource path="res://Src/Player/FSM/Behaviours/PlayerGravity.gd" type="Script" id=36]
-[ext_resource path="res://Src/Player/FSM/Behaviours/WeaponMomentum.gd" type="Script" id=37]
-[ext_resource path="res://Src/Player/FSM/States/InAirState.gd" type="Script" id=38]
-[ext_resource path="res://Src/Player/FSM/States/TuckRollState.gd" type="Script" id=39]
-[ext_resource path="res://Src/Player/FSM/States/DiveState.gd" type="Script" id=40]
-[ext_resource path="res://Src/Player/FSM/Behaviours/CheckLandingBehavior.gd" type="Script" id=41]
-[ext_resource path="res://Src/Player/FSM/Behaviours/LeanRoll.gd" type="Script" id=42]
-[ext_resource path="res://Src/Player/FSM/Behaviours/ApplyYawBehavior.gd" type="Script" id=43]
-[ext_resource path="res://Src/Player/FSM/Behaviours/ApplyPitchBehavior.gd" type="Script" id=44]
-[ext_resource path="res://Scenes/Player/PlayerMesh.tscn" type="PackedScene" id=45]
-[ext_resource path="res://Scenes/Weapon/Boomstick.tscn" type="PackedScene" id=46]
-[ext_resource path="res://Src/RayCastSignals.gd" type="Script" id=47]
+[ext_resource path="res://Src/Player/FSM/Behaviours/LerpPitch.gd" type="Script" id=18]
+[ext_resource path="res://Src/Player/FSM/Behaviours/ClampPitch.gd" type="Script" id=19]
+[ext_resource path="res://Src/Player/FSM/Behaviours/CylinderHeightBehavior.gd" type="Script" id=20]
+[ext_resource path="res://Src/Player/FSM/Behaviours/CylinderRotationBehavior.gd" type="Script" id=21]
+[ext_resource path="res://Src/Player/FSM/Behaviours/AccelerationBehavior.gd" type="Script" id=22]
+[ext_resource path="res://Src/Player/FSM/Behaviours/JumpBehavior.gd" type="Script" id=23]
+[ext_resource path="res://Src/Player/FSM/Behaviours/UpdateMoveBob.gd" type="Script" id=24]
+[ext_resource path="res://Src/Player/FSM/Behaviours/ApplyMoveBob.gd" type="Script" id=25]
+[ext_resource path="res://Curves/ViewBobCurve.tres" type="Curve" id=26]
+[ext_resource path="res://Curves/WeaponBobCurve.tres" type="Curve" id=27]
+[ext_resource path="res://Src/Player/FSM/States/CrouchingState.gd" type="Script" id=28]
+[ext_resource path="res://Src/Player/FSM/Behaviours/DiveBehavior.gd" type="Script" id=29]
+[ext_resource path="res://Src/Player/FSM/Behaviours/SlideBehavior.gd" type="Script" id=30]
+[ext_resource path="res://Src/Player/FSM/States/ProneState.gd" type="Script" id=31]
+[ext_resource path="res://Src/Player/FSM/Behaviours/ClampYaw.gd" type="Script" id=32]
+[ext_resource path="res://Src/Player/FSM/Behaviours/GetUpBehavior.gd" type="Script" id=33]
+[ext_resource path="res://Src/Player/FSM/Behaviours/FloorMovement.gd" type="Script" id=34]
+[ext_resource path="res://Src/Player/FSM/Behaviours/MoveSlideSnap.gd" type="Script" id=35]
+[ext_resource path="res://Src/Player/FSM/States/AirborneState.gd" type="Script" id=36]
+[ext_resource path="res://Src/Player/FSM/Behaviours/PlayerGravity.gd" type="Script" id=37]
+[ext_resource path="res://Src/Player/FSM/Behaviours/WeaponMomentum.gd" type="Script" id=38]
+[ext_resource path="res://Src/Player/FSM/States/InAirState.gd" type="Script" id=39]
+[ext_resource path="res://Src/Player/FSM/Behaviours/CheckLandingBehavior.gd" type="Script" id=40]
+[ext_resource path="res://Src/Player/FSM/States/TuckRollState.gd" type="Script" id=41]
+[ext_resource path="res://Src/Player/FSM/States/DiveState.gd" type="Script" id=42]
+[ext_resource path="res://Src/Player/FSM/Behaviours/LeanRoll.gd" type="Script" id=43]
+[ext_resource path="res://Src/Player/FSM/Behaviours/ApplyYawBehavior.gd" type="Script" id=44]
+[ext_resource path="res://Src/Player/FSM/Behaviours/ApplyPitchBehavior.gd" type="Script" id=45]
+[ext_resource path="res://Scenes/Player/PlayerMesh.tscn" type="PackedScene" id=46]
+[ext_resource path="res://Scenes/Weapon/Boomstick.tscn" type="PackedScene" id=47]
+[ext_resource path="res://Src/RayCastSignals.gd" type="Script" id=48]
 
 [sub_resource type="CylinderShape" id=1]
 radius = 0.4
@@ -61,28 +62,20 @@ script = ExtResource( 1 )
 script = ExtResource( 2 )
 
 [node name="Connections" type="Node" parent="."]
-editor/display_folded = true
 
 [node name="MouseMoveX" type="Node" parent="Connections"]
 script = ExtResource( 3 )
 from_node = NodePath("../../Input/MouseMove")
 from_signal = "mouse_move_x"
-to_node = NodePath("../../PlayerState")
-to_method = "add_yaw"
+to_node = NodePath("../..")
+to_method = "mouse_move_x"
 
 [node name="MouseMoveY" type="Node" parent="Connections"]
 script = ExtResource( 3 )
 from_node = NodePath("../../Input/MouseMove")
 from_signal = "mouse_move_y"
-to_node = NodePath("../../PlayerState")
-to_method = "add_pitch"
-
-[node name="Crouch" type="Node" parent="Connections"]
-script = ExtResource( 3 )
-from_node = NodePath("../../Input/CrouchAction")
-from_signal = "down_changed"
-to_node = NodePath("../../PlayerState")
-to_method = "set_crouching"
+to_node = NodePath("../..")
+to_method = "mouse_move_y"
 
 [node name="Skate" type="Node" parent="Connections"]
 script = ExtResource( 3 )
@@ -99,7 +92,6 @@ to_node = NodePath("../../Controllers/DirectionalRotation")
 to_method = "set_rot_forward"
 
 [node name="Input" type="Node" parent="."]
-editor/display_folded = true
 
 [node name="MouseCapture" type="Node" parent="Input"]
 script = ExtResource( 4 )
@@ -140,6 +132,7 @@ kinematic_body = NodePath("../..")
 
 [node name="FSM" parent="." instance=ExtResource( 10 )]
 script = ExtResource( 11 )
+active_state_path = "Grounded/Standing"
 context = {
 "crouch_action": NodePath("../Input/CrouchAction"),
 "crouching_height": NodePath("States/Grounded/States/Crouching/LerpHeight"),
@@ -174,118 +167,163 @@ script = ExtResource( 16 )
 [node name="Standing" parent="FSM/States/Grounded/States" index="0" instance=ExtResource( 10 )]
 script = ExtResource( 17 )
 
-[node name="LerpHeight" type="Node" parent="FSM/States/Grounded/States/Standing"]
+[node name="LerpPitch" type="Node" parent="FSM/States/Grounded/States/Standing"]
 script = ExtResource( 18 )
+long_way_around = true
+pitch_min = -90.0
+pitch_max = 90.0
+stop_threshold = 0.01
 
-[node name="LerpRotation" type="Node" parent="FSM/States/Grounded/States/Standing"]
+[node name="ClampPitch" type="Node" parent="FSM/States/Grounded/States/Standing"]
 script = ExtResource( 19 )
 
-[node name="ApplyAcceleration" type="Node" parent="FSM/States/Grounded/States/Standing"]
+[node name="LerpHeight" type="Node" parent="FSM/States/Grounded/States/Standing"]
 script = ExtResource( 20 )
 
-[node name="CheckJump" type="Node" parent="FSM/States/Grounded/States/Standing"]
+[node name="LerpRotation" type="Node" parent="FSM/States/Grounded/States/Standing"]
 script = ExtResource( 21 )
 
-[node name="UpdateMoveBob" type="Node" parent="FSM/States/Grounded/States/Standing"]
+[node name="ApplyAcceleration" type="Node" parent="FSM/States/Grounded/States/Standing"]
 script = ExtResource( 22 )
 
-[node name="ApplyViewBob" type="Node" parent="FSM/States/Grounded/States/Standing"]
+[node name="CheckJump" type="Node" parent="FSM/States/Grounded/States/Standing"]
 script = ExtResource( 23 )
+
+[node name="UpdateMoveBob" type="Node" parent="FSM/States/Grounded/States/Standing"]
+script = ExtResource( 24 )
+
+[node name="ApplyViewBob" type="Node" parent="FSM/States/Grounded/States/Standing"]
+script = ExtResource( 25 )
 spatial_key = "view_bob_spatial"
-bob_curve_y = ExtResource( 24 )
+bob_curve_y = ExtResource( 26 )
 bob_magnitude = Vector3( 0, 0.115, 0 )
 
 [node name="ApplyWeaponBob" type="Node" parent="FSM/States/Grounded/States/Standing"]
-script = ExtResource( 23 )
+script = ExtResource( 25 )
 spatial_key = "weapon_bob_spatial"
-bob_curve_z = ExtResource( 25 )
+bob_curve_z = ExtResource( 27 )
 bob_magnitude = Vector3( 0, 0, 0.115 )
 curve_offset = Vector3( 0, 0, 0.2 )
 
 [node name="Crouching" parent="FSM/States/Grounded/States" index="1" instance=ExtResource( 10 )]
-script = ExtResource( 26 )
+script = ExtResource( 28 )
+
+[node name="LerpPitch" type="Node" parent="FSM/States/Grounded/States/Crouching"]
+script = ExtResource( 18 )
+long_way_around = true
+pitch_min = -90.0
+pitch_max = 90.0
+stop_threshold = 0.01
+
+[node name="ClampPitch" type="Node" parent="FSM/States/Grounded/States/Crouching"]
+script = ExtResource( 19 )
 
 [node name="LerpHeight" type="Node" parent="FSM/States/Grounded/States/Crouching"]
-script = ExtResource( 18 )
+script = ExtResource( 20 )
 height = 1.35
 
 [node name="LerpRotation" type="Node" parent="FSM/States/Grounded/States/Crouching"]
-script = ExtResource( 19 )
+script = ExtResource( 21 )
 
 [node name="ApplyAcceleration" type="Node" parent="FSM/States/Grounded/States/Crouching"]
-script = ExtResource( 20 )
+script = ExtResource( 22 )
 move_speed = 7.625
 
 [node name="CheckDive" type="Node" parent="FSM/States/Grounded/States/Crouching"]
-script = ExtResource( 27 )
+script = ExtResource( 29 )
 
 [node name="CheckSlide" type="Node" parent="FSM/States/Grounded/States/Crouching"]
-script = ExtResource( 28 )
+script = ExtResource( 30 )
 
 [node name="UpdateMoveBob" type="Node" parent="FSM/States/Grounded/States/Crouching"]
-script = ExtResource( 22 )
+script = ExtResource( 24 )
 bob_frequency = 0.2
 
 [node name="ApplyViewBob" type="Node" parent="FSM/States/Grounded/States/Crouching"]
-script = ExtResource( 23 )
+script = ExtResource( 25 )
 spatial_key = "view_bob_spatial"
-bob_curve_y = ExtResource( 24 )
+bob_curve_y = ExtResource( 26 )
 bob_magnitude = Vector3( 0, 0.095, 0 )
 
 [node name="ApplyWeaponBob" type="Node" parent="FSM/States/Grounded/States/Crouching"]
-script = ExtResource( 23 )
+script = ExtResource( 25 )
 spatial_key = "weapon_bob_spatial"
-bob_curve_z = ExtResource( 25 )
+bob_curve_z = ExtResource( 27 )
 bob_magnitude = Vector3( 0, 0, 0.095 )
 curve_offset = Vector3( 0, 0, 0.2 )
 
 [node name="Prone" parent="FSM/States/Grounded/States" index="2" instance=ExtResource( 10 )]
-script = ExtResource( 29 )
+script = ExtResource( 31 )
 
-[node name="LerpHeight" type="Node" parent="FSM/States/Grounded/States/Prone/PreBehaviors" index="0"]
+[node name="ClampYaw" type="Node" parent="FSM/States/Grounded/States/Prone/PreBehaviors" index="0"]
+script = ExtResource( 32 )
+yaw_limit = 90.0
+
+[node name="FrontProne" parent="FSM/States/Grounded/States/Prone/States" index="0" instance=ExtResource( 10 )]
+
+[node name="LerpPitch" type="Node" parent="FSM/States/Grounded/States/Prone/States/FrontProne"]
 script = ExtResource( 18 )
+pitch_min = 0.0
+pitch_max = 45.0
+speed = 15.0
+stop_threshold = 0.01
 
-[node name="LerpRotation" type="Node" parent="FSM/States/Grounded/States/Prone/PreBehaviors" index="1"]
+[node name="ClampPitch" type="Node" parent="FSM/States/Grounded/States/Prone/States/FrontProne"]
 script = ExtResource( 19 )
+pitch_min = 1.0
+pitch_max = 44.0
+
+[node name="BackProne" parent="FSM/States/Grounded/States/Prone/States" index="1" instance=ExtResource( 10 )]
+
+[node name="LerpPitch" type="Node" parent="FSM/States/Grounded/States/Prone/States/BackProne"]
+script = ExtResource( 18 )
+pitch_min = 0.0
+pitch_max = 180.0
+speed = 15.0
+stop_threshold = 0.01
+
+[node name="ClampPitch" type="Node" parent="FSM/States/Grounded/States/Prone/States/BackProne"]
+script = ExtResource( 19 )
+pitch_min = 1.0
+pitch_max = 179.0
+
+[node name="LerpHeight" type="Node" parent="FSM/States/Grounded/States/Prone/PostBehaviors" index="0"]
+script = ExtResource( 20 )
+
+[node name="LerpRotation" type="Node" parent="FSM/States/Grounded/States/Prone/PostBehaviors" index="1"]
+script = ExtResource( 21 )
 rotation_angle = 90.0
 rotation_transition_speed = 20.0
 
-[node name="CheckGetUp" type="Node" parent="FSM/States/Grounded/States/Prone/PreBehaviors" index="2"]
-script = ExtResource( 30 )
+[node name="CheckGetUp" type="Node" parent="FSM/States/Grounded/States/Prone/PostBehaviors" index="2"]
+script = ExtResource( 33 )
 
-[node name="RecenterViewBob" type="Node" parent="FSM/States/Grounded/States/Prone/PreBehaviors" index="3"]
+[node name="RecenterViewBob" type="Node" parent="FSM/States/Grounded/States/Prone/PostBehaviors" index="3"]
 script = ExtResource( 15 )
 spatial_key = "view_bob_spatial"
 
-[node name="RecenterWeaponBob" type="Node" parent="FSM/States/Grounded/States/Prone/PreBehaviors" index="4"]
+[node name="RecenterWeaponBob" type="Node" parent="FSM/States/Grounded/States/Prone/PostBehaviors" index="4"]
 script = ExtResource( 15 )
 spatial_key = "weapon_bob_spatial"
 
-[node name="ClampYaw" type="Node" parent="FSM/States/Grounded/States/Prone/PreBehaviors" index="5"]
-script = ExtResource( 31 )
-yaw_limit = 90.0
-
 [node name="ApplyFloorMove" type="Node" parent="FSM/States/Grounded/PostBehaviors" index="0"]
-script = ExtResource( 32 )
+script = ExtResource( 34 )
 
 [node name="MoveSlideSnap" type="Node" parent="FSM/States/Grounded/PostBehaviors" index="1"]
-script = ExtResource( 33 )
+script = ExtResource( 35 )
 snap_vector = Vector3( 0, -1, 0 )
 floor_normal = Vector3( 0, 1, 0 )
 stop_on_slope = true
 max_slope_angle = 45.0
 
-[node name="ClampPitch" type="Node" parent="FSM/States/Grounded/PostBehaviors" index="2"]
-script = ExtResource( 34 )
-
 [node name="Airborne" parent="FSM/States" index="1" instance=ExtResource( 10 )]
-script = ExtResource( 35 )
-
-[node name="ApplyGravity" type="Node" parent="FSM/States/Airborne/PreBehaviors" index="0"]
 script = ExtResource( 36 )
 
+[node name="ApplyGravity" type="Node" parent="FSM/States/Airborne/PreBehaviors" index="0"]
+script = ExtResource( 37 )
+
 [node name="ApplyAcceleration" type="Node" parent="FSM/States/Airborne/PreBehaviors" index="1"]
-script = ExtResource( 20 )
+script = ExtResource( 22 )
 acceleration = 1.5
 
 [node name="RecenterViewBob" type="Node" parent="FSM/States/Airborne/PreBehaviors" index="2"]
@@ -297,68 +335,77 @@ script = ExtResource( 15 )
 spatial_key = "weapon_bob_spatial"
 
 [node name="WeaponMomentum" type="Node" parent="FSM/States/Airborne/PreBehaviors" index="4"]
-script = ExtResource( 37 )
-
-[node name="InAir" parent="FSM/States/Airborne/States" index="0" instance=ExtResource( 10 )]
 script = ExtResource( 38 )
 
+[node name="InAir" parent="FSM/States/Airborne/States" index="0" instance=ExtResource( 10 )]
+script = ExtResource( 39 )
+
 [node name="LerpHeight" type="Node" parent="FSM/States/Airborne/States/InAir"]
-script = ExtResource( 18 )
+script = ExtResource( 20 )
 height = 1.7
 
 [node name="LerpRotation" type="Node" parent="FSM/States/Airborne/States/InAir"]
-script = ExtResource( 19 )
-
-[node name="CheckJump" type="Node" parent="FSM/States/Airborne/States/InAir"]
 script = ExtResource( 21 )
 
+[node name="CheckJump" type="Node" parent="FSM/States/Airborne/States/InAir"]
+script = ExtResource( 23 )
+
+[node name="CheckLanding" type="Node" parent="FSM/States/Airborne/States/InAir"]
+script = ExtResource( 40 )
+target_path = "Grounded/Standing"
+
 [node name="TuckRoll" parent="FSM/States/Airborne/States" index="1" instance=ExtResource( 10 )]
-script = ExtResource( 39 )
+script = ExtResource( 41 )
 
 [node name="LerpHeight" type="Node" parent="FSM/States/Airborne/States/TuckRoll"]
-script = ExtResource( 18 )
+script = ExtResource( 20 )
 height = 1.35
 
 [node name="LerpRotation" type="Node" parent="FSM/States/Airborne/States/TuckRoll"]
-script = ExtResource( 19 )
+script = ExtResource( 21 )
+
+[node name="CheckLanding" type="Node" parent="FSM/States/Airborne/States/TuckRoll"]
+script = ExtResource( 40 )
+target_path = "Grounded/Standing"
 
 [node name="Dive" parent="FSM/States/Airborne/States" index="2" instance=ExtResource( 10 )]
-script = ExtResource( 40 )
+script = ExtResource( 42 )
 
 [node name="LerpHeight" type="Node" parent="FSM/States/Airborne/States/Dive"]
-script = ExtResource( 18 )
+script = ExtResource( 20 )
 
 [node name="LerpRotation" type="Node" parent="FSM/States/Airborne/States/Dive"]
-script = ExtResource( 19 )
+script = ExtResource( 21 )
 rotation_angle = 80.0
 
 [node name="ClampYaw" type="Node" parent="FSM/States/Airborne/States/Dive"]
-script = ExtResource( 31 )
+script = ExtResource( 32 )
 yaw_limit = 90.0
 
-[node name="CheckLanding" type="Node" parent="FSM/States/Airborne/PostBehaviors" index="0"]
-script = ExtResource( 41 )
+[node name="CheckLanding" type="Node" parent="FSM/States/Airborne/States/Dive"]
+script = ExtResource( 40 )
+target_path = "Grounded/Prone"
 
-[node name="MoveSlideSnap" type="Node" parent="FSM/States/Airborne/PostBehaviors" index="1"]
-script = ExtResource( 33 )
+[node name="MoveSlideSnap" type="Node" parent="FSM/States/Airborne/PostBehaviors" index="0"]
+script = ExtResource( 35 )
 floor_normal = Vector3( 0, 1, 0 )
 
 [node name="LeanRoll" type="Node" parent="FSM/PostBehaviors" index="0"]
-script = ExtResource( 42 )
+script = ExtResource( 43 )
 lean_factor = 0.262
 
 [node name="ApplyYaw" type="Node" parent="FSM/PostBehaviors" index="1"]
-script = ExtResource( 43 )
+script = ExtResource( 44 )
 yaw_spatial = NodePath("../../../CameraRig/CameraRig/ViewBob/CameraYaw")
 
 [node name="ApplyPitch" type="Node" parent="FSM/PostBehaviors" index="2"]
-script = ExtResource( 44 )
+script = ExtResource( 45 )
 pitch_spatial = NodePath("../../../CameraRig/CameraRig/ViewBob/CameraYaw/CameraPitch")
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 1 )
 
-[node name="PlayerMesh" parent="." instance=ExtResource( 45 )]
+[node name="PlayerMesh" parent="." instance=ExtResource( 46 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9, 0 )
 
 [node name="FeetAnchor" type="Position3D" parent="."]
@@ -414,7 +461,7 @@ remote_path = NodePath("../../../../../../Weapon/Boomstick")
 
 [node name="Weapon" type="Node" parent="."]
 
-[node name="Boomstick" parent="Weapon" instance=ExtResource( 46 )]
+[node name="Boomstick" parent="Weapon" instance=ExtResource( 47 )]
 transform = Transform( 1, 0, 0, 0, 0.97437, 0.224951, 0, -0.224951, 0.97437, 0, 0.299, -0.554 )
 
 [node name="Uncrouch" type="Spatial" parent="."]
@@ -429,9 +476,17 @@ update_scale = false
 [node name="UncrouchRayCast" type="RayCast" parent="Uncrouch/Node"]
 enabled = true
 cast_to = Vector3( 0, 1.601, 0 )
-script = ExtResource( 47 )
-[connection signal="colliding_changed" from="Uncrouch/Node/UncrouchRayCast" to="Input/CrouchAction" method="set_ignore_input"]
+script = ExtResource( 48 )
+[connection signal="active_changed" from="FSM/States/Grounded/States/Standing/LerpPitch" to="Input/MouseMove" method="set_ignore_y"]
+[connection signal="active_changed" from="FSM/States/Grounded/States/Standing/LerpPitch" to="FSM/States/Grounded/States/Standing/ClampPitch" method="set_inactive"]
+[connection signal="active_changed" from="FSM/States/Grounded/States/Crouching/LerpPitch" to="FSM/States/Grounded/States/Crouching/ClampPitch" method="set_inactive"]
+[connection signal="active_changed" from="FSM/States/Grounded/States/Crouching/LerpPitch" to="Input/MouseMove" method="set_ignore_y"]
+[connection signal="active_changed" from="FSM/States/Grounded/States/Prone/States/FrontProne/LerpPitch" to="Input/MouseMove" method="set_ignore_y"]
+[connection signal="active_changed" from="FSM/States/Grounded/States/Prone/States/FrontProne/LerpPitch" to="FSM/States/Grounded/States/Prone/States/FrontProne/ClampPitch" method="set_inactive"]
+[connection signal="active_changed" from="FSM/States/Grounded/States/Prone/States/BackProne/LerpPitch" to="Input/MouseMove" method="set_ignore_y"]
+[connection signal="active_changed" from="FSM/States/Grounded/States/Prone/States/BackProne/LerpPitch" to="FSM/States/Grounded/States/Prone/States/BackProne/ClampPitch" method="set_inactive"]
 [connection signal="colliding_changed" from="Uncrouch/Node/UncrouchRayCast" to="Input/JumpAction" method="set_ignore_input"]
+[connection signal="colliding_changed" from="Uncrouch/Node/UncrouchRayCast" to="Input/CrouchAction" method="set_ignore_input"]
 
 [editable path="FSM"]
 

@@ -17,7 +17,6 @@ func _input(event: InputEvent):
 		wish_vector.x = get_wish_axis(event, left_action, right_action)
 		wish_vector.z = get_wish_axis(event, forward_action, back_action)
 
-# warning-ignore:unused_argument
 func get_wish_axis(event: InputEvent, neg_action: String, pos_action: String):
 	return bool_to_int(Input.is_action_pressed(neg_action), -1) + bool_to_int(Input.is_action_pressed(pos_action), 1)
 

@@ -8,7 +8,6 @@ signal colliding_changed(colliding)
 signal collision_start
 signal collision_end
 
-# warning-ignore:unused_argument
 func _physics_process(delta):
 	colliding = is_colliding()
 	

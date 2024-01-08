@@ -2,7 +2,7 @@ class_name Weapon
 extends Spatial
 
 export(NodePath) var muzzle_flash
-var muzzle_flash_instance: VisualInstance = null
+var muzzle_flash_instance: Node = null
 
 export(NodePath) var kickback_anchor
 var kickback_anchor_instance: Spatial = null
@@ -43,22 +43,22 @@ func set_can_fire(new_can_fire):
 func _ready():
 	assert(!muzzle_flash.is_empty())
 	muzzle_flash_instance = get_node(muzzle_flash)
-	
+
 	assert(!kickback_anchor.is_empty())
 	kickback_anchor_instance = get_node(kickback_anchor)
-	
+
 	set_muzzle_flash_visible(false)
-	
+
 	muzzle_flash_timer = Timer.new()
 	muzzle_flash_timer.name = "MuzzleFlashTimer"
 	muzzle_flash_timer.connect("timeout", self, "set_muzzle_flash_visible", [false])
 	add_child(muzzle_flash_timer)
-	
+
 	refire_timer = Timer.new()
 	refire_timer.name = "RefireTimer"
 	refire_timer.connect("timeout", self, "refire")
 	add_child(refire_timer)
-	
+
 	hitscan_raycast = RayCast.new()
 	hitscan_raycast.name = "HitscanRaycast"
 	hitscan_raycast.cast_to = Vector3(0, 0, -hitscan_range)
@@ -74,7 +74,6 @@ func _input(event):
 
 func fire():
 	hitscan_raycast.enabled = true
-# warning-ignore:unused_variable
 	for idx in range(0, hitscan_count):
 		hitscan_raycast.rotation = Vector3((randf() - 0.5) * 2 * deg2rad(hitscan_deviation.x), (randf() - 0.5) * 2 * deg2rad(hitscan_deviation.y), 0)
 		hitscan_raycast.force_raycast_update()
@@ -86,12 +85,12 @@ func fire():
 			hitscan_particle.look_at(hitscan_particle.translation - normal, Vector3(normal.y, normal.z, normal.x))
 			hitscan_particle.emitting = true
 	hitscan_raycast.enabled = false
-	
+
 	kickback = kickback_impulse
-	
+
 	set_muzzle_flash_visible(true)
 	muzzle_flash_timer.start(muzzle_flash_duration)
-	
+
 	set_can_fire(false)
 	refire_timer.start(refire_duration)
 

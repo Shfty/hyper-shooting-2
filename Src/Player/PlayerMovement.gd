@@ -14,14 +14,12 @@ var slide_limit = false
 # @TODO: Fire at reticle instead of weapon forward
 
 # Functions
-# warning-ignore:unused_argument
-# warning-ignore:unused_argument
 func move_ground(delta: float, wish_vec: Vector3, velocity: Vector3):
 	if(player_state == null):
 		return
 	
 	var skating = player_state.get_skating()
-	var prone = player_state.get_prone()
+	var prone = player_state.get_stance() == PlayerState.Stance.PRONE
 	
 	var back_prone = player_state.is_back_prone()
 	

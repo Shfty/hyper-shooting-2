@@ -1,55 +1,71 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Src/UI.gd" type="Script" id=1]
+[ext_resource path="res://Fonts/ka1.ttf" type="DynamicFontData" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+size = 10
+font_data = ExtResource( 2 )
 
 [node name="MarginContainer" type="MarginContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 20.0
-margin_top = 20.0
-margin_right = -20.0
-margin_bottom = -20.0
 script = ExtResource( 1 )
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_right = 1880.0
-margin_bottom = 84.0
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_right = 1024.0
+margin_bottom = 600.0
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+margin_right = 1024.0
+margin_bottom = 13.0
 size_flags_vertical = 0
+custom_fonts/font = SubResource( 1 )
+text = "Welcome to HS2"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 428.0
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_vertical = 10
 alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
-editor/display_folded = true
-margin_right = 624.0
-margin_bottom = 84.0
-size_flags_horizontal = 3
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+margin_right = 320.0
+margin_bottom = 172.0
+rect_min_size = Vector2( 320, 0 )
+size_flags_horizontal = 2
 
-[node name="LateralVelocity" type="ProgressBar" parent="HBoxContainer/VBoxContainer"]
-margin_right = 624.0
+[node name="LateralVelocity" type="ProgressBar" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+margin_right = 320.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 0, 40 )
 size_flags_horizontal = 3
 max_value = 50.0
 
-[node name="VerticalVelocity" type="ProgressBar" parent="HBoxContainer/VBoxContainer"]
+[node name="AccelerationProgress" type="ProgressBar" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
 margin_top = 44.0
-margin_right = 624.0
+margin_right = 320.0
 margin_bottom = 84.0
-rect_min_size = Vector2( 0, 40 )
-size_flags_horizontal = 3
-max_value = 50.0
-
-[node name="CenterContainer" type="CenterContainer" parent="HBoxContainer"]
-margin_left = 628.0
-margin_right = 1252.0
-margin_bottom = 84.0
-size_flags_horizontal = 3
-
-[node name="AccelerationProgress" type="ProgressBar" parent="HBoxContainer"]
-margin_left = 1256.0
-margin_right = 1880.0
-margin_bottom = 40.0
 rect_min_size = Vector2( 0, 40 )
 size_flags_horizontal = 3
 min_value = -0.5
 max_value = 0.5
 step = 0.001
+
+[node name="VerticalVelocity" type="ProgressBar" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+margin_top = 88.0
+margin_right = 320.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 0, 40 )
+size_flags_horizontal = 3
+max_value = 50.0
+
+[node name="SkateState" type="Button" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+margin_top = 132.0
+margin_right = 320.0
+margin_bottom = 172.0
+rect_min_size = Vector2( 0, 40 )
+size_flags_horizontal = 3
+disabled = true
+text = "Skating"

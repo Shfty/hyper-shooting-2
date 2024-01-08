@@ -1,10 +1,12 @@
-extends PlayerFSMState
+extends NestedFSMState
+
+export(String) var player_state_key = "player_state"
+export(String) var crouch_action_key = "crouch_action"
+
 
 func physics_process(delta):
-	.physics_process(delta)
-	var player_state = .get_context("player_state") as PlayerState
-	if(player_state.get_prone()):
-		exit("Prone")
-	elif(player_state.get_crouching()):
-		exit("Crouching")
-	.physics_process(delta)
+	var player_state := get_context(player_state_key) as PlayerState
+	var crouch_action := get_context(crouch_action_key) as InputAction
+
+	if(crouch_action.get_down()):
+		return root_fsm.change_to("Grounded/Crouching")

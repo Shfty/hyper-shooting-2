@@ -4,9 +4,9 @@ extends Node
 export(String) var input_action
 export(bool) var ignore_input setget set_ignore_input
 
-var down = false setget set_down
-var pressed = false
-var released = false
+var down = false setget set_down, get_down
+var pressed = false setget , get_pressed
+var released = false setget , get_released
 
 signal down_changed(down)
 signal pressed
@@ -26,6 +26,15 @@ func set_down(new_down):
 			emit_signal("pressed")
 		else:
 			emit_signal("released")
+
+func get_down():
+	return down
+
+func get_pressed():
+	return pressed
+
+func get_released():
+	return released
 
 func _input(event):
 	if(ignore_input):

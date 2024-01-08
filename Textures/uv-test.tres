@@ -1,0 +1,5 @@
+[gd_resource type="StreamTexture" format=2]
+
+[resource]
+flags = 23
+load_path = "res://.import/uv-test.png-eb5c5a4c0733b5ff0b2d4cb63907bb70.s3tc.stex"

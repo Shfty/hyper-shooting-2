@@ -7,7 +7,6 @@ export(String) var lean_roll_spatial_key = "lean_roll_spatial"
 export(float) var lean_factor = 0.01
 export(float) var max_lean = 2.5
 
-# warning-ignore:unused_argument
 func physics_process(delta):
 	var player_state := get_context(player_state_key) as PlayerState
 	var lean_roll_spatial := get_context(lean_roll_spatial_key) as Spatial

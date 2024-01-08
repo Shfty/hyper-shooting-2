@@ -4,7 +4,7 @@
 [ext_resource path="res://Scenes/Player/Boomstick/BoomstickMesh.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Player/Boomstick/BoomstickMuzzleFlash.tscn" type="PackedScene" id=3]
 
-[node name="Boomstick" instance=ExtResource( 1 )]
+[node name="Boomstick" index="0" instance=ExtResource( 1 )]
 muzzle_flash = NodePath("../Boomstick/MuzzleFlash")
 kickback_anchor = NodePath("../Boomstick/MeshAnchor")
 kickback_impulse = 0.381

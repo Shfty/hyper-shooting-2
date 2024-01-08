@@ -1,0 +1,13 @@
+[remap]
+
+importer="qodot.map"
+type="QuakeMap"
+path="res://.import/trenchbroom-uv-test.map-ba4859a074e336a3f926fb2a1dc49f5a.tres"
+
+[deps]
+
+source_file="res://Maps/trenchbroom-uv-test.map"
+dest_files=[ "res://.import/trenchbroom-uv-test.map-ba4859a074e336a3f926fb2a1dc49f5a.tres" ]
+
+[params]
+

@@ -1,8 +1,6 @@
-extends PlayerFSMState
+extends NestedFSMState
 
-func get_default_state():
-	var player_state = .get_context("player_state") as PlayerState
-	if(player_state.get_prone()):
-		return "Dive"
-	else:
-		return "InAir"
+export(String) var player_state_key = "player_state"
+
+func get_default_state(from_state):
+	return "InAir"

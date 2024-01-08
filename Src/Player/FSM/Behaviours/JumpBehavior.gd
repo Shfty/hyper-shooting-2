@@ -7,7 +7,6 @@ export(String) var jump_action_key = "jump_action"
 
 export(float) var jump_impulse = 10.3
 
-# warning-ignore:unused_argument
 func physics_process(delta):
 	var player_state := get_context(player_state_key) as PlayerState
 	var kinematic_body := get_context(kinematic_body_key) as KinematicBody
@@ -21,4 +20,4 @@ func physics_process(delta):
 		
 		jump_action.set_down(false)
 		player_state.set_grounded(false)
-		parent_fsm.parent_fsm.exit("Airborne")
+		root_fsm.change_to("Airborne/InAir")

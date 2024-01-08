@@ -9,7 +9,6 @@ export(float) var slide_impulse = 45.75
 func slide_command():
 	return Input.is_action_just_pressed("move_forward")
 
-# warning-ignore:unused_argument
 func physics_process(delta):
 	var player_state := get_context(player_state_key) as PlayerState
 	var crouching_height := get_context(crouching_height_key) as CylinderHeightBehavior
@@ -17,7 +16,7 @@ func physics_process(delta):
 	if(slide_command() && !crouching_height.is_fully_transitioned()):
 		var forward_vector = Vector3.FORWARD.rotated(Vector3.UP, player_state.get_yaw())
 		player_state.set_prone_direction(-forward_vector)
-		player_state.set_prone(true)
+		root_fsm.change_to("Grounded/Prone/BackProne")
 		var velocity = player_state.get_velocity()
 		if(!player_state.get_skating()):
 			#slide_limit = true

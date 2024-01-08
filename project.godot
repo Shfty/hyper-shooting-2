@@ -99,7 +99,12 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Src/Player/FSM/States/GroundedState.gd"
 }, {
-"base": "Reference",
+"base": "QuakeMapNode",
+"class": "HS2MapNode",
+"language": "GDScript",
+"path": "res://Src/HS2MapNode.gd"
+}, {
+"base": "Node",
 "class": "InputAction",
 "language": "GDScript",
 "path": "res://Src/Input/InputAction.gd"
@@ -115,9 +120,19 @@ _global_script_classes=[ {
 "path": "res://Src/Player/FSM/Behaviours/LeanRoll.gd"
 }, {
 "base": "NestedFSMBehavior",
+"class": "LerpPitchBehavior",
+"language": "GDScript",
+"path": "res://Src/Player/FSM/Behaviours/LerpPitch.gd"
+}, {
+"base": "NestedFSMBehavior",
 "class": "LerpSpatialBehavior",
 "language": "GDScript",
 "path": "res://Src/Player/FSM/Behaviours/LerpSpatial.gd"
+}, {
+"base": "EditorImportPlugin",
+"class": "MapImportPlugin",
+"language": "GDScript",
+"path": "res://addons/Qodot/QuakeMapImportPlugin.gd"
 }, {
 "base": "Node",
 "class": "MouseCapture",
@@ -159,11 +174,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Src/Player/Player.gd"
 }, {
-"base": "NestedFSMState",
-"class": "PlayerFSMState",
-"language": "GDScript",
-"path": "res://Src/Player/FSM/States/PlayerFSMState.gd"
-}, {
 "base": "NestedFSMBehavior",
 "class": "PlayerGravityBehavior",
 "language": "GDScript",
@@ -173,16 +183,6 @@ _global_script_classes=[ {
 "class": "PlayerMovement",
 "language": "GDScript",
 "path": "res://Src/Player/PlayerMovement.gd"
-}, {
-"base": "Node",
-"class": "PlayerPitch",
-"language": "GDScript",
-"path": "res://Src/Player/PlayerPitch.gd"
-}, {
-"base": "Node",
-"class": "PlayerPitchLimit",
-"language": "GDScript",
-"path": "res://Src/Player/PlayerPitchLimit.gd"
 }, {
 "base": "Node",
 "class": "PlayerState",
@@ -199,15 +199,65 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Src/ProceduralTexturing/ProceduralTextureSequence.gd"
 }, {
+"base": "Node",
+"class": "QodotNode",
+"language": "GDScript",
+"path": "res://addons/Qodot/Nodes/QodotNode.gd"
+}, {
+"base": "EditorPlugin",
+"class": "QodotPlugin",
+"language": "GDScript",
+"path": "res://addons/Qodot/QodotPlugin.gd"
+}, {
+"base": "Spatial",
+"class": "QodotSpatial",
+"language": "GDScript",
+"path": "res://addons/Qodot/Nodes/QodotSpatial.gd"
+}, {
+"base": "Reference",
+"class": "QodotUtil",
+"language": "GDScript",
+"path": "res://addons/Qodot/QodotUtil.gd"
+}, {
+"base": "Resource",
+"class": "QuakeBrush",
+"language": "GDScript",
+"path": "res://addons/Qodot/Data/QuakeBrush.gd"
+}, {
+"base": "Resource",
+"class": "QuakeEntity",
+"language": "GDScript",
+"path": "res://addons/Qodot/Data/QuakeEntity.gd"
+}, {
+"base": "Resource",
+"class": "QuakeMap",
+"language": "GDScript",
+"path": "res://addons/Qodot/Data/QuakeMap.gd"
+}, {
+"base": "QodotSpatial",
+"class": "QuakeMapNode",
+"language": "GDScript",
+"path": "res://addons/Qodot/Nodes/QuakeMapNode.gd"
+}, {
+"base": "Reference",
+"class": "QuakeMapReader",
+"language": "GDScript",
+"path": "res://addons/Qodot/QuakeMapReader.gd"
+}, {
+"base": "Resource",
+"class": "QuakePlane",
+"language": "GDScript",
+"path": "res://addons/Qodot/Data/QuakePlane.gd"
+}, {
+"base": "ImmediateGeometry",
+"class": "QuakePlaneAxes",
+"language": "GDScript",
+"path": "res://addons/Qodot/Nodes/QuakePlaneAxes.gd"
+}, {
 "base": "RayCast",
 "class": "RayCastSignals",
 "language": "GDScript",
 "path": "res://Src/RayCastSignals.gd"
-}, {
-"base": "Node",
-"class": "RemoteNodePath",
-"language": "GDScript",
-"path": "res://Src/RemoteNodePath.gd"
 }, {
 "base": "NestedFSMBehavior",
 "class": "ResetMoveBobBehavior",
@@ -263,10 +313,13 @@ _global_script_class_icons={
 "FrictionBehavior": "",
 "GetUpBehavior": "",
 "GroundedState": "",
+"HS2MapNode": "",
 "InputAction": "",
 "JumpBehavior": "",
 "LeanRollBehavior": "",
+"LerpPitchBehavior": "",
 "LerpSpatialBehavior": "",
+"MapImportPlugin": "",
 "MouseCapture": "",
 "MouseMove": "",
 "MoveSlideSnapBehavior": "",
@@ -275,16 +328,23 @@ _global_script_class_icons={
 "NestedFSMRoot": "",
 "NestedFSMState": "",
 "Player": "",
-"PlayerFSMState": "",
 "PlayerGravityBehavior": "",
 "PlayerMovement": "",
-"PlayerPitch": "",
-"PlayerPitchLimit": "",
 "PlayerState": "",
 "ProceduralTexture": "",
 "ProceduralTextureSequence": "",
+"QodotNode": "res://addons/Qodot/Icons/icon_qodot_node.svg",
+"QodotPlugin": "",
+"QodotSpatial": "res://addons/Qodot/Icons/icon_qodot_spatial.svg",
+"QodotUtil": "",
+"QuakeBrush": "",
+"QuakeEntity": "",
+"QuakeMap": "",
+"QuakeMapNode": "",
+"QuakeMapReader": "",
+"QuakePlane": "",
+"QuakePlaneAxes": "res://addons/Qodot/Icons/icon_qodot_spatial.svg",
 "RayCastSignals": "",
-"RemoteNodePath": "",
 "ResetMoveBobBehavior": "",
 "SlideBehavior": "",
 "UpdateMoveBobBehavior": "",
@@ -300,36 +360,45 @@ config/name="HS2"
 run/main_scene="res://Scenes/Maps/Scene.tscn"
 config/icon="res://icon.png"
 
+[debug]
+
+gdscript/completion/autocomplete_setters_and_getters=true
+gdscript/warnings/unused_argument=false
+gdscript/warnings/return_value_discarded=false
+
 [display]
 
-window/size/width=1920
-window/size/height=1080
+window/size/fullscreen=true
+
+[editor_plugins]
+
+enabled=PoolStringArray( "Qodot" )
 
 [input]
 
 move_forward={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":69,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":69,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 move_back={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":68,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":68,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 move_left={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":83,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":83,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 move_right={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":70,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":70,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 jump={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":32,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":32,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 skate={
@@ -339,7 +408,7 @@ skate={
 }
 crouch={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777237,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777237,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 fire={
@@ -351,8 +420,8 @@ fire={
 [layer_names]
 
 3d_render/layer_1="Player"
-3d_physics/layer_1="Environment"
 3d_render/layer_2="Environment"
+3d_physics/layer_1="Environment"
 3d_physics/layer_2="Player"
 3d_physics/layer_3="Enemies"
 
@@ -363,6 +432,6 @@ common/physics_fps=165
 
 [rendering]
 
-quality/filters/anisotropic_filter_level=16
 quality/shadows/filter_mode=2
+quality/filters/anisotropic_filter_level=16
 environment/default_environment="res://default_env.tres"

@@ -1,7 +1,17 @@
 class_name NestedFSMRoot
 extends NestedFSMState
 
+export(String) var active_state_path
 export(Dictionary) var context
+
+# @TODO:
+# Centralize logic in FSM root
+# Minimize state / behaviour logic, note tree should be a data model for scripts
+# Remove state logic entirely? States as behavior groups
+# Use an active state path to walk down the tree and activate/deactivate nodes as needed
+# Create SVG icons to represent root, state and behavior
+# Remove dependency on prefab pre/state/post nodes
+# Use the set_process_* family of functions to control execution instead of calling custom recursive versions
 
 # Overrides
 func _ready():
@@ -20,7 +30,7 @@ func _ready():
 	call_recursive_one_param(self, "set_context_inst", new_context_inst)
 	
 	# Start
-	call_recursive(self, "start")
+	change_to(active_state_path);
 
 func _process(delta):
 	call_recursive_one_param_active(self, "process", delta)
@@ -29,8 +39,11 @@ func _physics_process(delta):
 	call_recursive_one_param_active(self, "physics_process", delta)
 
 func set_parent_fsm_recursive(node, prev_node):
-	if("parent_fsm" in node):
-		node.parent_fsm = prev_node
+	if("_parent_fsm" in node):
+		node._parent_fsm = prev_node
+	
+	if("root_fsm" in node):
+		node.root_fsm = self
 	
 	if("IS_FSM" in node):
 		prev_node = node

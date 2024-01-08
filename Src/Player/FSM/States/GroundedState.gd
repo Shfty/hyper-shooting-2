@@ -1,17 +1,22 @@
 class_name GroundedState
 extends NestedFSMState
 
-func get_default_state():
-	var player_state = get_context("player_state") as PlayerState
-	if(player_state.get_prone()):
-		return "Prone"
-	elif(player_state.get_crouching()):
-		return "Crouching"
-	else:
-		return "Standing"
+export(String) var player_state_key = "player_state"
+export(String) var crouch_action_key = "crouch_action"
+
+func enter(from_state):
+	var crouch_action := get_context(crouch_action_key) as InputAction
+	
+	if(from_state == "Dive"):
+		root_fsm.change_to("Grounded/Prone")
+	
+	if(crouch_action.get_down()):
+		root_fsm.change_to("Grounded/Crouching")
+		
+	root_fsm.change_to("Grounded/Standing")
 
 func physics_process(delta):
-	var player_state = get_context("player_state") as PlayerState
+	var player_state := get_context(player_state_key) as PlayerState
+	
 	if(!player_state.get_grounded() || player_state.get_skating()):
-		.exit("Airborne")
-	.physics_process(delta)
+		root_fsm.change_to("Airborne/InAir")

@@ -22,7 +22,7 @@ func set_points(new_points):
 func set_point_scale(new_point_scale):
 	if(point_scale != new_point_scale):
 		point_scale = new_point_scale
-		
+
 		for child in get_point_children():
 			child.scale = Vector3(point_scale, point_scale, point_scale)
 
@@ -33,7 +33,7 @@ func _ready():
 func init_points():
 	clear_path_points()
 	clear_child_points()
-	
+
 	add_path_point(Vector3.ZERO)
 	for point in points:
 		add_path_point(point)
@@ -41,7 +41,7 @@ func init_points():
 
 func clear_path_points():
 	curve.clear_points()
-	
+
 func clear_child_points():
 	# clear out any leftover points
 	for child in get_point_children():
@@ -69,16 +69,15 @@ func init_curve_points():
 	for idx in range(0, curve.get_point_count()):
 		curve.remove_point(idx)
 
-# warning-ignore:unused_argument
 func _process(delta):
 	while(get_point_children().size() < points.size()):
 		points.remove(points.size() - 1)
 		curve.remove_point(curve.get_point_count() - 1)
-		
+
 	while(get_point_children().size() > points.size()):
 		points.append(Vector3.ZERO)
 		curve.add_point(Vector3.ZERO)
-		
+
 	var idx = 0
 	for child in get_point_children():
 		points[idx] = child.translation

@@ -3,7 +3,6 @@ extends NestedFSMBehavior
 export(String) var player_state_key = "player_state"
 export(String) var kinematic_body_key = "kinematic_body"
 
-# warning-ignore:unused_argument
 func physics_process(delta):
 	var player_state := get_context(player_state_key) as PlayerState
 	var kinematic_body := get_context(kinematic_body_key) as KinematicBody

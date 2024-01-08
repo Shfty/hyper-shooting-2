@@ -6,9 +6,11 @@ const FSM_BASE = true
 var context_inst: Dictionary = {} setget set_context_inst
 
 # warning-ignore:unused_class_variable
-var parent_fsm = null
+var root_fsm = null
+# warning-ignore:unused_class_variable
+var _parent_fsm = null
 
-func set_context_inst(new_context_inst):
+func set_context_inst(new_context_inst) -> void:
 	if(context_inst != new_context_inst):
 		context_inst = new_context_inst
 
@@ -16,24 +18,17 @@ func get_context(key):
 	return context_inst[key]
 
 # Events
-func is_active():
+func is_active() -> bool:
 	return false
 
-func start():
+func enter(from_state: String) -> void:
 	pass
 
-func enter():
+func exit(to_state: String) -> void:
 	pass
 
-# warning-ignore:unused_argument
-func exit(next_state):
-	pass
-
-# warning-ignore:unused_argument
-func process(delta):
+func process(delta: float) -> void:
 	pass
 	
-# warning-ignore:unused_argument
-func physics_process(delta):
+func physics_process(delta: float) -> void:
 	pass
-

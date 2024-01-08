@@ -4,8 +4,6 @@ extends KinematicBody
 export(NodePath) var target_path
 onready var target = Util.get_node_from_path(self, target_path)
 
-onready var test_ray = $TestRay
-
 export(Vector3) var target_offset = Vector3.ZERO
 
 export(float) var lateral_slack_min = 2.0
@@ -26,8 +24,8 @@ func _physics_process(delta):
 	
 	move_xz(delta, delta_pos)
 	move_y(delta, delta_pos)
-	yaw(delta, delta_pos)
-	pitch(delta, delta_pos)
+	yaw(delta_pos)
+	pitch(delta_pos)
 
 func move_xz(delta, delta_pos):
 	var delta_lateral = Vector3(delta_pos.x, 0.0, delta_pos.z)
@@ -43,7 +41,7 @@ func move_y(delta, delta_pos):
 	if(delta_vertical.length() > vertical_slack):
 		move_and_slide(delta_vertical.normalized() * ((delta_vertical.length() - vertical_slack)) / delta)
 
-func yaw(delta, delta_pos):
+func yaw(delta_pos):
 	var yaw = yaw_spatial.rotation.y
 	
 	var yaw_forward = -yaw_spatial.global_transform.basis.z
@@ -59,7 +57,7 @@ func yaw(delta, delta_pos):
 	
 	yaw_spatial.rotation.y = yaw
 
-func pitch(delta, delta_pos):
+func pitch(delta_pos):
 	var pitch = pitch_spatial.rotation.x
 	
 	var delta_dir = delta_pos.normalized()

@@ -1,0 +1,14 @@
+HS2 gameplay ideas
+==================
+
+- Parrying buckler
+    - When active, all damage is done directly to armor
+    - If armor runs out during use, guard break
+        - Lose a chunk of health?
+        - Momentary stun?
+    - Parry mechanic
+        - Spend little (or no) armor if timed perfectly
+        - Open up enemy for heavy counter on parrying melee
+        - Pile bunker built into buckler
+    - Beam counter
+        - Activate a high-powered beam counter if you use 100 armor in one go?
